@@ -721,79 +721,72 @@
     </div>
     </div>
 
-<!--Pilih Nominal Diamond-->
-<div class="row mt-3">
-    <div class="col">
-        <div class="card bg-dark shadow">
-            <div class="card-header">
-                <h5 class="card-title">Pilih Nominal</h5>
-            </div>
-            <div class="card-body">
-                <div id="tempatNominal">
-                    <div class="row row-cols-2">
-                        <?php
-                        // Include file koneksi.php
-                        include 'koneksi/koneksi.php';
+<script>
+    // Panggil fungsi untuk mendapatkan data dari Google Sheets saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', getDataFromGoogleSheet);
 
-                          // Query untuk mengambil data dari tabel tb_dmlbb dan diurutkan berdasarkan jumlah_dmlbb
-                          $sql = "SELECT id_dmlbb, jumlah_dmlbb, harga_dmlbb, img_dmlbb FROM tb_dmlbb ORDER BY jumlah_dmlbb ASC";
-                          $result = $pdo->query($sql);
+    function getDataFromGoogleSheet() {
+        // Ganti dengan ID spreadsheet Anda
+        var spreadsheetId = '1lCzOUZW2UfWBEgf4rLF_yZjuevR60-qdGZmWRiRY6KI';
 
-                        // Memeriksa apakah ada hasil dari query
-                        if ($result->rowCount() > 0) {
-                            // Mengambil setiap baris data
-                            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                                $id_dmlbb = $row["id_dmlbb"];
-                                $jumlah_dmlbb = $row["jumlah_dmlbb"];
-                                $harga_dmlbb = $row["harga_dmlbb"];
+        // Ganti dengan range data yang Anda inginkan
+        var range = 'MLBB!A:C';
 
-                                // Determine which image to use based on jumlah_dmlbb
-                                if ($jumlah_dmlbb <= 200) {
-                                    $img_src = 'assets/img/1668367575diamondkecil.png';
-                                } elseif ($jumlah_dmlbb <= 500) {
-                                    $img_src = 'assets/img/1653285166dmlumayan.png';
-                                } 
-                                elseif ($jumlah_dmlbb <= 1700) {
-                                    $img_src = 'assets/img/1653285724diamondbanyak.png';
-                                }else {
-                                    $img_src = 'assets/img/1653285903diamondsultan.png';
-                                }
-                        ?>
-                                <div class="col-lg-4 mt-3">
-                                    <div class="list-group shadow h-100">
-                                    <input type="radio" name="inlineRadioOptions" id="nominal-<?php echo $jumlah_dmlbb; ?>"
-                                    value="<?php echo $jumlah_dmlbb; ?>" data-type="diamond"
-                                    data-price="<?php echo $harga_dmlbb; ?>">
-                                        <label for="nominal-<?php echo $jumlah_dmlbb; ?>" class="list-group-item h-100">
+        // Ganti dengan kunci API Anda
+        var apiKey = 'd132f1d9b25167d93dd1ab89ad5789cb2e4e9775';
+
+        // URL untuk mengambil data dari Google Sheets
+        var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + range + '?key=' + apiKey;
+
+        // Panggil API Google Sheets
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Dapatkan data dari respons JSON
+                var values = data.values;
+
+                // Bersihkan konten tempatNominal
+                var nominalContainer = document.getElementById('nominalData');
+                nominalContainer.innerHTML = '';
+
+                // Tampilkan data dari Google Sheets
+                values.forEach(row => {
+                    var jumlah_dmlbb = row[0];
+                    var harga_dmlbb = row[1];
+                    var img_src = row[2];
+
+                    var html = `
+                        <div class="col-lg-4 mt-3">
+                            <div class="list-group shadow h-100">
+                                <input type="radio" name="inlineRadioOptions" id="nominal-${jumlah_dmlbb}"
+                                    value="${jumlah_dmlbb}" data-type="diamond"
+                                    data-price="${harga_dmlbb}">
+                                <label for="nominal-${jumlah_dmlbb}" class="list-group-item h-100">
+                                    <div class="row">
+                                        <div class="col">
                                             <div class="row">
-                                                <div class="col">
-                                                    <div class="row">
-                                                        <div class="col name-prod"><?php echo $jumlah_dmlbb; ?> Diamonds</div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col nominal-price">Rp <?php echo $harga_dmlbb; ?></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3 col-1 m-auto">
-                                                    <img src="<?php echo $img_src; ?>" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
-                                                </div>
+                                                <div class="col name-prod">${jumlah_dmlbb} Diamonds</div>
                                             </div>
-                                        </label>
+                                            <div class="row">
+                                                <div class="col nominal-price">Rp ${harga_dmlbb}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-1 m-auto">
+                                            <img src="${img_src}" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                        </div>
                                     </div>
-                                </div>
-                        <?php
-                            }
-                        } else {
-                            echo "0 results";
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--End Pilih Nominal Diamond-->
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                    nominalContainer.innerHTML += html;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
+    }
+</script>
 
         <div class="row mt-3 mb-3">
     <div class="col-lg-12 clearfix">
