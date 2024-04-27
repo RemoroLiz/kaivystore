@@ -720,73 +720,301 @@
     </div>
     </div>
     </div>
-
-<script>
-    // Panggil fungsi untuk mendapatkan data dari Google Sheets saat halaman dimuat
-    document.addEventListener('DOMContentLoaded', getDataFromGoogleSheet);
-
-    function getDataFromGoogleSheet() {
-        // Ganti dengan ID spreadsheet Anda
-        var spreadsheetId = '1lCzOUZW2UfWBEgf4rLF_yZjuevR60-qdGZmWRiRY6KI';
-
-        // Ganti dengan range data yang Anda inginkan
-        var range = 'MLBB!A:C';
-
-        // Ganti dengan kunci API Anda
-        var apiKey = 'd132f1d9b25167d93dd1ab89ad5789cb2e4e9775';
-
-        // URL untuk mengambil data dari Google Sheets
-        var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + range + '?key=' + apiKey;
-
-        // Panggil API Google Sheets
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                // Dapatkan data dari respons JSON
-                var values = data.values;
-
-                // Bersihkan konten tempatNominal
-                var nominalContainer = document.getElementById('nominalData');
-                nominalContainer.innerHTML = '';
-
-                // Tampilkan data dari Google Sheets
-                values.forEach(row => {
-                    var jumlah_dmlbb = row[0];
-                    var harga_dmlbb = row[1];
-                    var img_src = row[2];
-
-                    var html = `
-                        <div class="col-lg-4 mt-3">
-                            <div class="list-group shadow h-100">
-                                <input type="radio" name="inlineRadioOptions" id="nominal-${jumlah_dmlbb}"
-                                    value="${jumlah_dmlbb}" data-type="diamond"
-                                    data-price="${harga_dmlbb}">
-                                <label for="nominal-${jumlah_dmlbb}" class="list-group-item h-100">
-                                    <div class="row">
-                                        <div class="col">
+<div class="row mt-3">
+    <div class="col">
+        <div class="card bg-dark shadow">
+            <div class="card-header">
+                <h5 class="card-title">Pilih Nominal</h5>
+            </div>
+            <div class="card-body">
+                <div id="tempatNominal">
+                    <div class="row row-cols-2">
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-85" value="85" data-type="diamond" data-price="24000">
+                                        <label for="nominal-85" class="list-group-item h-100">
                                             <div class="row">
-                                                <div class="col name-prod">${jumlah_dmlbb} Diamonds</div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">85 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 24000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1668367575diamondkecil.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col nominal-price">Rp ${harga_dmlbb}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-1 m-auto">
-                                            <img src="${img_src}" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
-                                        </div>
+                                        </label>
                                     </div>
-                                </label>
-                            </div>
-                        </div>
-                    `;
-                    nominalContainer.innerHTML += html;
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-            });
-    }
-</script>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-148" value="148" data-type="diamond" data-price="40000">
+                                        <label for="nominal-148" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">148 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 40000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1668367575diamondkecil.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-258" value="258" data-type="diamond" data-price="69000">
+                                        <label for="nominal-258" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">258 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 69000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285166dmlumayan.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-284" value="284" data-type="diamond" data-price="77000">
+                                        <label for="nominal-284" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">284 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 77000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285166dmlumayan.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-370" value="370" data-type="diamond" data-price="100000">
+                                        <label for="nominal-370" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">370 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 100000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285166dmlumayan.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-408" value="408" data-type="diamond" data-price="108000">
+                                        <label for="nominal-408" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">408 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 108000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285166dmlumayan.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-568" value="568" data-type="diamond" data-price="148000">
+                                        <label for="nominal-568" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">568 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 148000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-642" value="642" data-type="diamond" data-price="165000">
+                                        <label for="nominal-642" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">642 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 165000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-716" value="716" data-type="diamond" data-price="185000">
+                                        <label for="nominal-716" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">716 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 185000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-845" value="845" data-type="diamond" data-price="220000">
+                                        <label for="nominal-845" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">845 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 220000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-966" value="966" data-type="diamond" data-price="298000">
+                                        <label for="nominal-966" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">966 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 298000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-1045" value="1045" data-type="diamond" data-price="272000">
+                                        <label for="nominal-1045" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">1045 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 272000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-1443" value="1443" data-type="diamond" data-price="370000">
+                                        <label for="nominal-1443" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">1443 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 370000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285724diamondbanyak.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                                        <div class="col-lg-4 mt-3">
+                                    <div class="list-group shadow h-100">
+                                    <input type="radio" name="inlineRadioOptions" id="nominal-2010" value="2010" data-type="diamond" data-price="488000">
+                                        <label for="nominal-2010" class="list-group-item h-100">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col name-prod">2010 Diamonds</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col nominal-price">Rp 488000</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-1 m-auto">
+                                                    <img src="../assets/img/1653285903diamondsultan.png" width="32px" style="top: 20%;right: 5%;position: absolute;" alt="">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                         </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
         <div class="row mt-3 mb-3">
     <div class="col-lg-12 clearfix">
