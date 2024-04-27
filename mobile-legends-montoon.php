@@ -27,14 +27,14 @@
 
 <meta property="og:type" content="website">
 <meta name="csrf-token" content="aeFEWaTq9uNjsBukoeQNS7YnYOn9FEhpByFoE8pW">
-<link rel="icon" href="../assets/img/settings/kaivylogo.png">
+<link rel="icon" href="assets/img/settings/kaivylogo.png">
 <title>    Mobile Legends
  - Kaivystore</title>
-<link rel="stylesheet" href="../assets/scss/app.css">
-<link rel="stylesheet" href="../assets/css/app.css">
-<link rel="stylesheet" href="../assets/scss/chatbox.css">
-<link rel="stylesheet" href="../assets/admin/assets/plugins/bootstrap-select/bootstrap-select.min.css">
-<script src="../assets/js/app.js"></script>
+<link rel="stylesheet" href="assets/scss/app.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/scss/chatbox.css">
+<link rel="stylesheet" href="assets/admin/assets/plugins/bootstrap-select/bootstrap-select.min.css">
+<script src="assets/js/app.js"></script>
 <style>
     #searchProds {
         width: 60px;
@@ -233,7 +233,7 @@
         width: 28px;
         height: 26px;
         content: "";
-        background: url(../assets/img/verified-red.png) top/cover;
+        background: url(assets/img/verified-red.png) top/cover;
         text-align: center;
     }
     .list-group input[type="radio"]:checked+.list-group-item {
@@ -315,7 +315,7 @@
     .wave {
         min-height: 100%;
         background-attachment: scroll;
-        background-image: url("../assets/img/wave.svg");
+        background-image: url("assets/img/wave.svg");
         background-repeat: no-repeat;
         background-position: bottom left, bottom right;
     }
@@ -323,7 +323,7 @@
     .wave2 {
         min-height: 100%;
         background-attachment: fixed;
-        background-image: url("../assets/img/wave2.svg");
+        background-image: url("assets/img/wave2.svg");
         background-repeat: no-repeat;
         background-position: top left, top right;
     }
@@ -494,11 +494,11 @@
                     <span class="w-100 d-lg-none d-block">
                 
                     </span>
-                    <a class="navbar-brand d-none d-lg-inline-block" href="../index.html">
-                        <img src="../assets/img/settings/kaivylogo.png" alt="LOGO" height="40px" class="bi me-2">
+                    <a class="navbar-brand d-none d-lg-inline-block" href="index.html">
+                        <img src="assets/img/settings/kaivylogo.png" alt="LOGO" height="40px" class="bi me-2">
                         </a>
-                        <a class="navbar-brand mx-auto d-lg-none d-inline-block" href="../index.html">
-                        <img src="../assets/img/settings/kaivylogo.png" alt="LOGO" height="40px" class="bi me-2">
+                        <a class="navbar-brand mx-auto d-lg-none d-inline-block" href="index.html">
+                        <img src="assets/img/settings/kaivylogo.png" alt="LOGO" height="40px" class="bi me-2">
                     </a>
                 </div>
             <div class="d-flex">
@@ -509,11 +509,11 @@
             <div class="collapse navbar-collapse text-right" id="navbarTogglerDemo03">
                 <ul class="navbar-nav ms-auto nav-stacked">
                     <li class="nav-item">
-                        <a href="../index.html" class="nav-link ">
+                        <a href="index.html" class="nav-link ">
                         <i class="fa fa-home"></i>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../status" class="nav-link ">
+                        <a href="status" class="nav-link ">
                         <i class="fas fa-search"></i>Check Invoice</a>
                     </li>
                     <li class="nav-item pe-md-2 dropdown d-lg-inline-block d-none">
@@ -535,7 +535,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-dark">
-                    <img src="../assets/img/1648171115intruksi.jpg" alt="Petunjuk Mobile Legends" class="img-fluid">
+                    <img src="assets/img/1648171115intruksi.jpg" alt="Petunjuk Mobile Legends" class="img-fluid">
                 </div>
                 <div class="modal-footer bg-dark">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -733,7 +733,7 @@
                     <div class="row row-cols-2">
                         <?php
                         // Include file koneksi.php
-                        include '../koneksi/koneksi.php';
+                        include 'koneksi/koneksi.php';
 
                           // Query untuk mengambil data dari tabel tb_dmlbb dan diurutkan berdasarkan jumlah_dmlbb
                           $sql = "SELECT id_dmlbb, jumlah_dmlbb, harga_dmlbb, img_dmlbb FROM tb_dmlbb ORDER BY jumlah_dmlbb ASC";
@@ -749,14 +749,14 @@
 
                                 // Determine which image to use based on jumlah_dmlbb
                                 if ($jumlah_dmlbb <= 200) {
-                                    $img_src = '../assets/img/1668367575diamondkecil.png';
+                                    $img_src = 'assets/img/1668367575diamondkecil.png';
                                 } elseif ($jumlah_dmlbb <= 500) {
-                                    $img_src = '../assets/img/1653285166dmlumayan.png';
+                                    $img_src = 'assets/img/1653285166dmlumayan.png';
                                 } 
                                 elseif ($jumlah_dmlbb <= 1700) {
-                                    $img_src = '../assets/img/1653285724diamondbanyak.png';
+                                    $img_src = 'assets/img/1653285724diamondbanyak.png';
                                 }else {
-                                    $img_src = '../assets/img/1653285903diamondsultan.png';
+                                    $img_src = 'assets/img/1653285903diamondsultan.png';
                                 }
                         ?>
                                 <div class="col-lg-4 mt-3">
@@ -891,7 +891,7 @@
 <div class="container mt-5">
 <div class="row">
     <div class="col-lg-6">
-        <img src="../assets/img/settings/kaivylogo.png" alt="LOGO" style="float:left;margin-left:2%;height:40px;
+        <img src="assets/img/settings/kaivylogo.png" alt="LOGO" style="float:left;margin-left:2%;height:40px;
                                                                                                                             width:40px; " class="bi me-2">
         <h5 class="text-uppercase mt-2" style="margin:0">KaivyStore</h5>
     <div class="mt-2">
@@ -904,7 +904,7 @@
 <div class="col">
 <div class="container mt-2 mb-2 text-center">
 <small>
-Copyright &copy; 2023 by <a href="../index.html" class="text-white">Kaivystore</a>
+Copyright &copy; 2023 by <a href="index.html" class="text-white">Kaivystore</a>
 </small>
 </div>
 </div>
@@ -918,10 +918,10 @@ Copyright &copy; 2023 by <a href="../index.html" class="text-white">Kaivystore</
             }
         });
     </script>
-<script src="../assets/admin/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="../assets/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="../assets/js/switch.js"></script>
-<script src="../assets/js/promoBox.js"></script>
+<script src="assets/admin/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="assets/js/switch.js"></script>
+<script src="assets/js/promoBox.js"></script>
 
 </script>
 <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous">
