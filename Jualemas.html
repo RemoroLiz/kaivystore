@@ -12,6 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             background-color: #f7f7f7;
         }
@@ -20,7 +21,7 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            width: 300px;
+            margin-bottom: 20px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -53,28 +54,38 @@
         </div>
         <button onclick="hitungPenjualan()">Hitung</button>
         <div class="result" id="result"></div>
-        
-        <h2>GADAI MM</h2>
+    </div>
+
+    <div class="container">
+        <h1>GADAI MM</h1>
         <div class="form-group">
-            <label for="hargaPotongGadai">Harga Potong Gadai (IDR):</label>
-            <input type="number" id="hargaPotongGadai" placeholder="Masukkan harga potong gadai">
+            <label for="hargaPotongGadai">Harga Potong Gadai per Gram (IDR):</label>
+            <input type="number" id="hargaPotongGadai" placeholder="Masukkan harga potong gadai per gram">
         </div>
         <div class="form-group">
             <label for="beratGadai">Berat Emas (gram):</label>
             <input type="number" id="beratGadai" placeholder="Masukkan berat emas">
         </div>
         <button onclick="hitungHargaPotongGadai()">Hitung Harga Potong Gadai</button>
-        <div class="result" id="resultPotongGadai"></div>
-        
+        <div class="result" id="resultHargaPotongGadai"></div>
+
+        <div class="form-group">
+            <label for="totalHargaPotongGadai">Total Harga Potong Gadai (IDR):</label>
+            <input type="number" id="totalHargaPotongGadai" placeholder="Masukkan total harga potong gadai">
+        </div>
         <div class="form-group">
             <label for="hargaNotaGadai">Harga Nota Gadai (IDR):</label>
             <input type="number" id="hargaNotaGadai" placeholder="Masukkan harga nota gadai">
         </div>
-        <button onclick="hitungHargaGadaiSementara()">Hitung Total Harga Gadai Sementara</button>
-        <div class="result" id="resultGadaiSementara"></div>
-        
+        <button onclick="hitungTotalHargaGadaiSementara()">Hitung Total Harga Gadai Sementara</button>
+        <div class="result" id="resultTotalHargaGadaiSementara"></div>
+
+        <div class="form-group">
+            <label for="totalHargaGadaiSementara">Total Harga Gadai Sementara (IDR):</label>
+            <input type="number" id="totalHargaGadaiSementara" placeholder="Masukkan total harga gadai sementara">
+        </div>
         <button onclick="hitungTotalPerolehGadai()">Hitung Total Peroleh Gadai</button>
-        <div class="result" id="resultPerolehGadai"></div>
+        <div class="result" id="resultTotalPerolehGadai"></div>
     </div>
 
     <script>
@@ -88,21 +99,21 @@
         function hitungHargaPotongGadai() {
             const hargaPotongGadai = document.getElementById('hargaPotongGadai').value;
             const beratGadai = document.getElementById('beratGadai').value;
-            const totalPotongGadai = hargaPotongGadai * beratGadai;
-            document.getElementById('resultPotongGadai').textContent = `Total Harga Potong Gadai: IDR ${totalPotongGadai.toLocaleString()}`;
+            const totalHargaPotongGadai = hargaPotongGadai * beratGadai;
+            document.getElementById('resultHargaPotongGadai').textContent = `Total Harga Potong Gadai: IDR ${totalHargaPotongGadai.toLocaleString()}`;
         }
 
-        function hitungHargaGadaiSementara() {
-            const totalPotongGadai = document.getElementById('resultPotongGadai').textContent.split(' ')[3].replace(/,/g, '');
+        function hitungTotalHargaGadaiSementara() {
+            const totalHargaPotongGadai = document.getElementById('totalHargaPotongGadai').value;
             const hargaNotaGadai = document.getElementById('hargaNotaGadai').value;
-            const totalGadaiSementara = totalPotongGadai - hargaNotaGadai;
-            document.getElementById('resultGadaiSementara').textContent = `Total Harga Gadai Sementara: IDR ${totalGadaiSementara.toLocaleString()}`;
+            const totalHargaGadaiSementara = totalHargaPotongGadai - hargaNotaGadai;
+            document.getElementById('resultTotalHargaGadaiSementara').textContent = `Total Harga Gadai Sementara: IDR ${totalHargaGadaiSementara.toLocaleString()}`;
         }
 
         function hitungTotalPerolehGadai() {
-            const totalGadaiSementara = document.getElementById('resultGadaiSementara').textContent.split(' ')[4].replace(/,/g, '');
-            const totalPerolehGadai = totalGadaiSementara * 0.75;
-            document.getElementById('resultPerolehGadai').textContent = `Total Peroleh Gadai: IDR ${totalPerolehGadai.toLocaleString()}`;
+            const totalHargaGadaiSementara = document.getElementById('totalHargaGadaiSementara').value;
+            const totalPerolehGadai = totalHargaGadaiSementara * 0.75;
+            document.getElementById('resultTotalPerolehGadai').textContent = `Total Peroleh Gadai: IDR ${totalPerolehGadai.toLocaleString()}`;
         }
     </script>
 </body>
