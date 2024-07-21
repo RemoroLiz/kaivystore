@@ -197,6 +197,20 @@
             const totalPenjualan = harga * berat;
             document.getElementById('result').textContent = `Total Penjualan: IDR ${totalPenjualan.toLocaleString()}`;
         }
+        function hitungPotonganHarga() {
+    const potonganHarga = document.getElementById('potonganHarga').value;
+    const beratBeliMM = document.getElementById('beratBeliMM').value;
+    const totalPotonganHarga = potonganHarga * beratBeliMM;
+    document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+}
+
+function hitungHargaAkhir() {
+    const totalHargaJual = document.getElementById('totalHargaJual').value;
+    const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
+    const hargaAkhir = totalHargaJual - totalPotonganHarga;
+    document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
+}
+        
 
         function hitungHargaPotongGadai() {
             const hargaPotongGadai = document.getElementById('hargaPotongGadai').value;
