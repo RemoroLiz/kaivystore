@@ -20,7 +20,6 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            width: 400px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -38,48 +37,34 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
-        .section {
-            margin-top: 30px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Kalkulator Penjualan dan Gadai Emas</h1>
-        
-        <div class="section">
-            <h2>Penjualan Emas</h2>
-            <div class="form-group">
-                <label for="harga">Harga Emas per Gram (IDR):</label>
-                <input type="number" id="harga" placeholder="Masukkan harga per gram">
-            </div>
-            <div class="form-group">
-                <label for="berat">Berat Emas (gram):</label>
-                <input type="number" id="berat" placeholder="Masukkan berat emas">
-            </div>
-            <button onclick="hitungPenjualan()">Hitung Penjualan</button>
-            <div class="result" id="resultPenjualan"></div>
+        <div class="form-group">
+            <label for="harga">Harga Emas per Gram (IDR):</label>
+            <input type="number" id="harga" placeholder="Masukkan harga per gram">
         </div>
+        <div class="form-group">
+            <label for="berat">Berat Emas (gram):</label>
+            <input type="number" id="berat" placeholder="Masukkan berat emas">
+        </div>
+        <button onclick="hitungPenjualan()">Hitung Penjualan</button>
+        <div class="result" id="resultPenjualan"></div>
 
-        <div class="section">
-            <h2>Gadai Emas Muda</h2>
-            <div class="form-group">
-                <label for="potongan">Potongan per Gram (IDR):</label>
-                <input type="number" id="potongan" placeholder="Masukkan potongan per gram">
-            </div>
-            <div class="form-group">
-                <label for="beratGadai">Berat Emas (gram):</label>
-                <input type="number" id="beratGadai" placeholder="Masukkan berat emas">
-            </div>
-            <div class="form-group">
-                <label for="hrgNota">Harga Nota (IDR):</label>
-                <input type="number" id="hrgNota" placeholder="Masukkan harga nota">
-            </div>
-            <button onclick="hitungGadai()">Hitung Gadai</button>
-            <div class="result" id="resultGadai"></div>
+        <h2>Gadai Emas Muda</h2>
+        <div class="form-group">
+            <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
+            <input type="number" id="potonganHarga" placeholder="Masukkan potongan harga per gram">
         </div>
+        <div class="form-group">
+            <label for="hargaNota">Harga Nota (IDR):</label>
+            <input type="number" id="hargaNota" placeholder="Masukkan harga nota">
+        </div>
+        <button onclick="hitungGadai()">Hitung Gadai</button>
+        <div class="result" id="resultGadai"></div>
     </div>
-    
     <script>
         function hitungPenjualan() {
             const harga = document.getElementById('harga').value;
@@ -89,18 +74,23 @@
         }
 
         function hitungGadai() {
-            const potongan = document.getElementById('potongan').value;
-            const beratGadai = document.getElementById('beratGadai').value;
-            const hrgNota = document.getElementById('hrgNota').value;
-            
-            const totalPotongan = potongan * beratGadai;
-            const totalSementara = totalPotongan - hrgNota;
+            const potonganHarga = document.getElementById('potonganHarga').value;
+            const berat = document.getElementById('berat').value;
+            const hargaNota = document.getElementById('hargaNota').value;
+
+            // Langkah 1: Hitung Total Potongan
+            const totalPotongan = potonganHarga * berat;
+
+            // Langkah 2: Hitung Total Sementara
+            const totalSementara = totalPotongan - hargaNota;
+
+            // Langkah 3: Hitung Total Gadai
             const totalGadai = totalSementara * 0.75;
-            
-            // Pembulatan ke bawah ke kelipatan 50rb
-            const totalGadaiRounded = Math.floor(totalGadai / 50000) * 50000;
-            
-            document.getElementById('resultGadai').textContent = `Total Gadai: IDR ${totalGadaiRounded.toLocaleString()}`;
+
+            // Langkah 4: Bulatkan ke bawah ke kelipatan 50 ribu
+            const totalGadaiDibulatkan = Math.floor(totalGadai / 50000) * 50000;
+
+            document.getElementById('resultGadai').textContent = `Total Gadai: IDR ${totalGadaiDibulatkan.toLocaleString()}`;
         }
     </script>
 </body>
