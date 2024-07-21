@@ -74,14 +74,14 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="#penjualan">Penjualan Emas</a>
+        <a href="#penjualanmm">Penjualan MM</a>
         <a href="#belimm1gr">Beli MM DiatasGr</a>
          <a href="#belimmbawah1">Beli MM Di bawah 1Gr</a>   
         <a href="#gadaiMM">Gadai MM</a>
         <a href="#gadaiMT">Gadai MT</a>
     </div>
-    <div class="container" id="penjualan">
-        <h1>Kalkulator Penjualan Emas</h1>
+    <div class="container" id="penjualanmm">
+        <h1>Penjualan MM</h1>
         <div class="form-group">
             <label for="harga">Harga Emas per Gram (IDR):</label>
             <input type="number" id="harga" placeholder="Masukkan harga per gram">
@@ -198,18 +198,18 @@
             document.getElementById('result').textContent = `Total Penjualan: IDR ${totalPenjualan.toLocaleString()}`;
         }
         function hitungPotonganHarga() {
-    const potonganHarga = document.getElementById('potonganHarga').value;
-    const beratBeliMM = document.getElementById('beratBeliMM').value;
-    const totalPotonganHarga = potonganHarga * beratBeliMM;
-    document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
-}
+            const potonganHarga = document.getElementById('potonganHarga').value;
+            const beratBeliMM = document.getElementById('beratBeliMM').value;
+            const totalPotonganHarga = potonganHarga * beratBeliMM;
+             document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+        }
 
-function hitungHargaAkhir() {
-    const totalHargaJual = document.getElementById('totalHargaJual').value;
-    const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
-    const hargaAkhir = totalHargaJual - totalPotonganHarga;
-    document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
-}
+        function hitungHargaAkhir() {
+            const totalHargaJual = document.getElementById('totalHargaJual').value;
+            const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
+            const hargaAkhir = totalHargaJual - totalPotonganHarga;
+             document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
+        }
         
 
         function hitungHargaPotongGadai() {
