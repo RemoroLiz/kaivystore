@@ -43,6 +43,7 @@
 </head>
 <body>
     <div class="container">
+        <br><br><br><br>
         <h1>Kalkulator Penjualan Emas</h1>
         <div class="form-group">
             <label for="harga">Harga Emas per Gram (IDR):</label>
@@ -103,7 +104,7 @@
         function hitungTotalHargaGadaiSementara() {
             const totalHargaPotongGadai = document.getElementById('totalHargaPotongGadai').value;
             const hargaNotaGadai = document.getElementById('hargaNotaGadai').value;
-            const totalHargaGadaiSementara = totalHargaPotongGadai - hargaNotaGadai;
+            const totalHargaGadaiSementara =  hargaNotaGadai-totalHargaPotongGadai;
             document.getElementById('resultTotalHargaGadaiSementara').textContent = `Total Harga Gadai Sementara: IDR ${totalHargaGadaiSementara.toLocaleString()}`;
         }
 
