@@ -84,6 +84,29 @@
         </div>
         <button onclick="hitungTotalPerolehGadai()">Hitung Total Peroleh Gadai</button>
         <div class="result" id="resultTotalPerolehGadai"></div>
+
+        <h2>GADAI MT</h2>
+        <div class="form-group">
+            <label for="hargaCOKIM">Harga COKIM (IDR):</label>
+            <input type="number" id="hargaCOKIM" placeholder="Masukkan harga COKIM">
+        </div>
+        <div class="form-group">
+            <label for="persenKode">Persenan Kode (%):</label>
+            <input type="number" id="persenKode" placeholder="Masukkan persenan kode">
+        </div>
+        <div class="form-group">
+            <label for="hargaSelisih">Harga Selisih (IDR):</label>
+            <input type="number" id="hargaSelisih" placeholder="Masukkan harga selisih">
+        </div>
+        <button onclick="hitungGadaiMT()">Hitung Gadai MT</button>
+        <div class="result" id="resultGadaiMT"></div>
+        
+        <div class="form-group">
+            <label for="totalGadaiSementaraMT">Total Sementara Gadai MT (IDR):</label>
+            <input type="number" id="totalGadaiSementaraMT" placeholder="Masukkan total sementara gadai MT">
+        </div>
+        <button onclick="hitungTotalGadaiMT()">Hitung Total Gadai MT</button>
+        <div class="result" id="resultTotalGadaiMT"></div>
     </div>
 
     <script>
@@ -104,7 +127,7 @@
         function hitungTotalHargaGadaiSementara() {
             const totalHargaPotongGadai = document.getElementById('totalHargaPotongGadai').value;
             const hargaNotaGadai = document.getElementById('hargaNotaGadai').value;
-            const totalHargaGadaiSementara =  hargaNotaGadai-totalHargaPotongGadai;
+            const totalHargaGadaiSementara = hargaNotaGadai - totalHargaPotongGadai;
             document.getElementById('resultTotalHargaGadaiSementara').textContent = `Total Harga Gadai Sementara: IDR ${totalHargaGadaiSementara.toLocaleString()}`;
         }
 
@@ -112,6 +135,20 @@
             const totalHargaGadaiSementara = document.getElementById('totalHargaGadaiSementara').value;
             const totalPerolehGadai = totalHargaGadaiSementara * 0.75;
             document.getElementById('resultTotalPerolehGadai').textContent = `Total Peroleh Gadai: IDR ${totalPerolehGadai.toLocaleString()}`;
+        }
+
+        function hitungGadaiMT() {
+            const hargaCOKIM = document.getElementById('hargaCOKIM').value;
+            const persenKode = document.getElementById('persenKode').value;
+            const hargaSelisih = document.getElementById('hargaSelisih').value;
+            const totalSementaraMT = (hargaCOKIM * (persenKode / 100)) - hargaSelisih;
+            document.getElementById('resultGadaiMT').textContent = `Total Sementara Gadai MT: IDR ${totalSementaraMT.toLocaleString()}`;
+        }
+
+        function hitungTotalGadaiMT() {
+            const totalSementaraMT = document.getElementById('totalGadaiSementaraMT').value;
+            const totalGadaiMT = totalSementaraMT * 0.75;
+            document.getElementById('resultTotalGadaiMT').textContent = `Total Gadai MT: IDR ${totalGadaiMT.toLocaleString()}`;
         }
     </script>
 </body>
