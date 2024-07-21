@@ -75,6 +75,8 @@
 <body>
     <div class="navbar">
         <a href="#penjualan">Penjualan Emas</a>
+        <a href="#belimm1gr">Beli MM DiatasGr/a>
+         <a href="#belimmbawah1">Beli MM Di bawah 1Gr</a>   
         <a href="#gadaiMM">Gadai MM</a>
         <a href="#gadaiMT">Gadai MT</a>
     </div>
@@ -93,6 +95,36 @@
         </div>
         <div class="result" id="result"></div>
     </div>
+
+    <div class="container" id="belimm1gr">
+    <h2>BELI MM DIATAS 1 GRAM</h2>
+    <div class="form-group">
+        <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
+        <input type="number" id="potonganHarga" placeholder="Masukkan potongan harga per gram">
+    </div>
+    <div class="form-group">
+        <label for="beratBeliMM">Berat (gram):</label>
+        <input type="number" id="beratBeliMM" placeholder="Masukkan berat">
+    </div>
+    <div class="form-group">
+        <button onclick="hitungPotonganHarga()">Hitung Total Potongan Harga</button>
+    </div>
+    <div class="result" id="resultPotonganHarga"></div>
+    
+    <div class="form-group">
+        <label for="totalHargaJual">Total Harga Jual (IDR):</label>
+        <input type="number" id="totalHargaJual" placeholder="Masukkan total harga jual">
+    </div>
+    <div class="form-group">
+        <label for="totalPotonganHarga">Total Potongan Harga (IDR):</label>
+        <input type="number" id="totalPotonganHarga" placeholder="Masukkan total potongan harga">
+    </div>
+    <div class="form-group">
+        <button onclick="hitungHargaAkhir()">Hitung Harga Akhir</button>
+    </div>
+    <div class="result" id="resultHargaAkhir"></div>
+    </div>
+    
     
     <div class="container" id="gadaiMM">
         <h2>GADAI MM</h2>
