@@ -6,7 +6,7 @@
     <title>Beli MM Diatas 1 Gram</title>
     <style>
         /* Styles go here */
-body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -72,84 +72,88 @@ body {
             text-align: center;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h2>BELI MM DIATAS 1 GRAM</h2>
-    <div id="form-container">
-        <div class="form-group">
-            <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
-            <input type="number" class="potonganHarga" placeholder="Masukkan potongan harga per gram">
-        </div>
-        <div class="form-group">
-            <label for="beratBeliMM">Berat (gram):</label>
-            <input type="number" class="beratBeliMM" placeholder="Masukkan berat">
-        </div>
+    <div class="form-group">
+        <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
+        <input type="number" id="potonganHarga" placeholder="Masukkan potongan harga per gram">
     </div>
     <div class="form-group">
-        <button onclick="addForm()">Tambah Barang</button>
+        <label for="beratBeliMM">Berat (gram):</label>
+        <input type="number" id="beratBeliMM" placeholder="Masukkan berat">
     </div>
     <div class="form-group">
-        <button onclick="hitungPotonganHarga()">Hitung</button>
+        <button onclick="hitungPotonganHarga()">Hitung Total Potongan Harga</button>
     </div>
-    <div class="result" id="result"></div>
-    <div class="result" id="grand-total"></div>
+    <div class="result" id="resultPotonganHarga"></div>
+    
+    <div class="form-group">
+        <label for="totalHargaJual">Total Harga Jual (IDR):</label>
+        <input type="number" id="totalHargaJual" placeholder="Masukkan total harga jual">
+    </div>
+    <div class="form-group">
+        <label for="totalPotonganHarga">Total Potongan Harga (IDR):</label>
+        <input type="number" id="totalPotonganHarga" placeholder="Masukkan total potongan harga">
+    </div>
+    <div class="form-group">
+        <button onclick="hitungHargaAkhir()">Hitung Harga Akhir</button>
+    </div>
+    <div class="result" id="resultHargaAkhir"></div>
+    <div class="result" id="grandTotal"></div>
 
     <script>
-        let formCounter = 1;
-
-        function addForm() {
-            formCounter++;
-            const formContainer = document.getElementById('form-container');
-            const newForm = document.createElement('div');
-            newForm.classList.add('form-group');
-            newForm.innerHTML = `
-                <label for="potonganHarga">Potongan Harga per Gram (IDR) ${formCounter}:</label>
-                <input type="number" class="potonganHarga" placeholder="Masukkan potongan harga per gram">
-                <label for="beratBeliMM">Berat (gram) ${formCounter}:</label>
-                <input type="number" class="beratBeliMM" placeholder="Masukkan berat">
-            `;
-            formContainer.appendChild(newForm);
+        function hitungPotonganHarga() {
+            const potonganHarga = document.getElementById('potonganHarga').value;
+            const beratBeliMM = document.getElementById('beratBeliMM').value;
+            const totalPotonganHarga = potonganHarga * beratBeliMM;
+            document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
         }
 
-        function hitungPotonganHarga() {
-            const potonganHargaInputs = document.querySelectorAll('.potonganHarga');
-            const beratBeliMMInputs = document.querySelectorAll('.beratBeliMM');
-            let grandTotal = 0;
-            let resultText = '';
-
-            potonganHargaInputs.forEach((potonganHargaInput, index) => {
-                const potonganHarga = parseFloat(potonganHargaInput.value);
-                const beratBeliMM = parseFloat(beratBeliMMInputs[index].value);
-                const totalPotonganHarga = potonganHarga * beratBeliMM;
-                grandTotal += totalPotonganHarga;
-                resultText += `Total Potongan Harga Barang ${index + 1}: IDR ${totalPotonganHarga.toLocaleString()}<br>`;
-            });
-
-            document.getElementById('result').innerHTML = resultText;
-            document.getElementById('grand-total').innerHTML = `Grand Total: IDR ${grandTotal.toLocaleString()}`;
+        function hitungHargaAkhir() {
+            const totalHargaJual = document.getElementById('totalHargaJual').value;
+            const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
+            const hargaAkhir = totalHargaJual - totalPotonganHarga;
+            document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
+            
+            // Simpan total harga menggunakan AJAX
+            saveTotal(hargaAkhir);
         }
 
         function saveTotal(total) {
-    $.ajax({
-        url: 'api/saveTotal',
-        method: 'POST',
-        data: { total: total },
-        success: function(response) {
-            console.log('Total saved:', response);
+            $.ajax({
+                url: '/api/saveTotal',
+                method: 'POST',
+                data: { total: total },
+                success: function(response) {
+                    console.log('Total saved:', response);
+                    // Ambil grand total gabungan
+                    getGrandTotal();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error saving total:', error);
+                }
+            });
         }
-    });
-}
 
-function getGrandTotal() {
-    $.ajax({
-        url: 'api/getGrandTotal',
-        method: 'GET',
-        success: function(response) {
-            document.getElementById('grand-total').innerHTML = `Grand Total Gabungan: IDR ${response.total.toLocaleString()}`;
+        function getGrandTotal() {
+            $.ajax({
+                url: '/api/getGrandTotal',
+                method: 'GET',
+                success: function(response) {
+                    document.getElementById('grandTotal').textContent = `Grand Total Gabungan: IDR ${response.total.toLocaleString()}`;
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error getting grand total:', error);
+                }
+            });
         }
-    });
-}
 
+        // Panggil getGrandTotal saat halaman dimuat
+        $(document).ready(function() {
+            getGrandTotal();
+        });
     </script>
 </body>
 </html>
