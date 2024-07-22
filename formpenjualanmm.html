@@ -128,6 +128,27 @@ body {
             document.getElementById('result').innerHTML = resultText;
             document.getElementById('grand-total').innerHTML = `Grand Total: IDR ${grandTotal.toLocaleString()}`;
         }
+        function saveTotal(total) {
+    $.ajax({
+        url: 'api/saveTotal',
+        method: 'POST',
+        data: { total: total },
+        success: function(response) {
+            console.log('Total saved:', response);
+        }
+    });
+}
+
+function getGrandTotal() {
+    $.ajax({
+        url: 'api/getGrandTotal',
+        method: 'GET',
+        success: function(response) {
+            document.getElementById('grand-total').innerHTML = `Grand Total Gabungan: IDR ${response.total.toLocaleString()}`;
+        }
+    });
+                }
+        
     </script>
 </body>
 </html>
