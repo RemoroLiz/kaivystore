@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gadai MT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            padding: 14px 20px;
+        }
+        .navbar a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>GADAI MT</h2>
+    <div class="form-group">
+        <label for="hargaCOKIM">Harga COKIM (IDR):</label>
+        <input type="number" id="hargaCOKIM" placeholder="Masukkan harga COKIM">
+    </div>
+    <div class="form-group">
+        <label for="persenKode">Persenan Kode (%):</label>
+        <input type="number" id="persenKode" placeholder="Masukkan persenan kode">
+    </div>
+    <div class="form-group">
+        <label for="hargaSelisih">Harga Selisih (IDR):</label>
+        <input type="number" id="hargaSelisih" placeholder="Masukkan harga selisih">
+    </div>
+    <div class="form-group">
+        <button onclick="hitungGadaiMT()">Hitung Gadai MT</button>
+    </div>
+    <div class="result" id="resultGadaiMT"></div>
+    <div class="form-group">
+        <label for="totalGadaiSementaraMT">Total Sementara Gadai MT (IDR):</label>
+        <input type="number" id="totalGadaiSementaraMT" placeholder="Masukkan total sementara gadai MT">
+    </div>
+    <div class="form-group">
+        <button onclick="hitungTotalGadaiMT()">Hitung Total Gadai MT</button>
+    </div>
+    <div class="result" id="resultTotalGadaiMT"></div>
+
+    <script>
+        function hitungGadaiMT() {
+            const hargaCOKIM = document.getElementById('hargaCOKIM').value;
+            const persenKode = document.getElementById('persenKode').value;
+            const hargaSelisih = document.getElementById('hargaSelisih').value;
+            const totalSementaraMT = (hargaCOKIM * (persenKode / 100)) - hargaSelisih;
+            document.getElementById('resultGadaiMT').textContent = `Total Sementara Gadai MT: IDR ${totalSementaraMT.toLocaleString()}`;
+        }
+
+        function hitungTotalGadaiMT() {
+            const totalSementaraMT = document.getElementById('totalGadaiSementaraMT').value;
+            const totalGadaiMT = totalSementaraMT * 0.75;
+            document.getElementById('resultTotalGadaiMT').textContent = `Total Gadai MT: IDR ${totalGadaiMT.toLocaleString()}`;
+        }
+    </script>
+</body>
+</html>
