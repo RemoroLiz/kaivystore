@@ -71,11 +71,15 @@
         h1, h2 {
             text-align: center;
         }
+        #additionalForms {
+            margin-top: 20px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h2>BELI MM DIATAS 1 GRAM</h2>
+
     <div class="form-group">
         <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
         <input type="number" id="potonganHarga" placeholder="Masukkan potongan harga per gram">
@@ -88,7 +92,7 @@
         <button onclick="hitungPotonganHarga()">Hitung Total Potongan Harga</button>
     </div>
     <div class="result" id="resultPotonganHarga"></div>
-    
+
     <div class="form-group">
         <label for="totalHargaJual">Total Harga Jual (IDR):</label>
         <input type="number" id="totalHargaJual" placeholder="Masukkan total harga jual">
@@ -100,10 +104,14 @@
     <div class="form-group">
         <button onclick="hitungHargaAkhir()">Hitung Harga Akhir</button>
     </div>
-        <div class="form-group">
-        <button onclick="hitungPotonganHarga()">Hitung</button>
-    </div>
     <div class="result" id="resultHargaAkhir"></div>
+
+    <div id="additionalForms"></div>
+
+    <div class="form-group">
+        <button onclick="addForm()">Add Form</button>
+    </div>
+
     <div class="result" id="grandTotal"></div>
 
     <script>
@@ -157,6 +165,55 @@
         $(document).ready(function() {
             getGrandTotal();
         });
+
+        function addForm() {
+            const formContainer = document.createElement('div');
+            formContainer.className = 'container';
+            formContainer.innerHTML = `
+                <div class="form-group">
+                    <label for="potonganHarga">Potongan Harga per Gram (IDR):</label>
+                    <input type="number" class="potonganHarga" placeholder="Masukkan potongan harga per gram">
+                </div>
+                <div class="form-group">
+                    <label for="beratBeliMM">Berat (gram):</label>
+                    <input type="number" class="beratBeliMM" placeholder="Masukkan berat">
+                </div>
+                <div class="form-group">
+                    <button class="calculateButton">Hitung Total Potongan Harga</button>
+                </div>
+                <div class="result totalPotonganHargaResult"></div>
+                <div class="form-group">
+                    <label for="totalHargaJual">Total Harga Jual (IDR):</label>
+                    <input type="number" class="totalHargaJual" placeholder="Masukkan total harga jual">
+                </div>
+                <div class="form-group">
+                    <label for="totalPotonganHarga">Total Potongan Harga (IDR):</label>
+                    <input type="number" class="totalPotonganHarga" placeholder="Masukkan total potongan harga">
+                </div>
+                <div class="form-group">
+                    <button class="finalCalculateButton">Hitung Harga Akhir</button>
+                </div>
+                <div class="result finalPriceResult"></div>
+            `;
+            document.getElementById('additionalForms').appendChild(formContainer);
+
+            formContainer.querySelector('.calculateButton').addEventListener('click', function() {
+                const potonganHarga = formContainer.querySelector('.potonganHarga').value;
+                const beratBeliMM = formContainer.querySelector('.beratBeliMM').value;
+                const totalPotonganHarga = potonganHarga * beratBeliMM;
+                formContainer.querySelector('.totalPotonganHargaResult').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+            });
+
+            formContainer.querySelector('.finalCalculateButton').addEventListener('click', function() {
+                const totalHargaJual = formContainer.querySelector('.totalHargaJual').value;
+                const totalPotonganHarga = formContainer.querySelector('.totalPotonganHarga').value;
+                const hargaAkhir = totalHargaJual - totalPotonganHarga;
+                formContainer.querySelector('.finalPriceResult').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
+                
+                // Simpan total harga menggunakan AJAX
+                saveTotal(hargaAkhir);
+            });
+        }
     </script>
 </body>
 </html>
