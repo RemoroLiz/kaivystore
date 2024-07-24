@@ -119,13 +119,13 @@
             const potonganHarga = document.getElementById('potonganHarga').value;
             const beratBeliMM = document.getElementById('beratBeliMM').value;
             const totalPotonganHarga = potonganHarga * beratBeliMM;
-            document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+            document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga:  ${totalPotonganHarga.toLocaleString()}`;
         }
 
         function hitungHargaAkhir() {
             const totalHargaJual = document.getElementById('totalHargaJual').value;
             const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
-            const hargaAkhir = totalHargaJual - totalPotonganHarga;
+            const hargaAkhir = totalHargaJual - resultPotonganHarga;
             document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
             
             // Simpan total harga menggunakan AJAX
