@@ -98,10 +98,6 @@
         <input type="number" id="totalHargaJual" placeholder="Masukkan total harga jual">
     </div>
     <div class="form-group">
-        <label for="totalPotonganHarga">Total Potongan Harga (IDR):</label>
-        <input type="number" id="totalPotonganHarga" placeholder="Masukkan total potongan harga">
-    </div>
-    <div class="form-group">
         <button onclick="hitungHargaAkhir()">Hitung Harga Akhir</button>
     </div>
     <div class="result" id="resultHargaAkhir"></div>
@@ -119,13 +115,14 @@
             const potonganHarga = document.getElementById('potonganHarga').value;
             const beratBeliMM = document.getElementById('beratBeliMM').value;
             const totalPotonganHarga = potonganHarga * beratBeliMM;
-            document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga:  ${totalPotonganHarga.toLocaleString()}`;
+            document.getElementById('resultPotonganHarga').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+            document.getElementById('totalPotonganHarga').value = totalPotonganHarga;  // Update totalPotonganHarga input field
         }
 
         function hitungHargaAkhir() {
             const totalHargaJual = document.getElementById('totalHargaJual').value;
             const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
-            const hargaAkhir = totalHargaJual - resultPotonganHarga;
+            const hargaAkhir = totalHargaJual - totalPotonganHarga;
             document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
             
             // Simpan total harga menggunakan AJAX
@@ -187,10 +184,6 @@
                     <input type="number" class="totalHargaJual" placeholder="Masukkan total harga jual">
                 </div>
                 <div class="form-group">
-                    <label for="totalPotonganHarga">Total Potongan Harga (IDR):</label>
-                    <input type="number" class="totalPotonganHarga" placeholder="Masukkan total potongan harga">
-                </div>
-                <div class="form-group">
                     <button class="finalCalculateButton">Hitung Harga Akhir</button>
                 </div>
                 <div class="result finalPriceResult"></div>
@@ -202,6 +195,7 @@
                 const beratBeliMM = formContainer.querySelector('.beratBeliMM').value;
                 const totalPotonganHarga = potonganHarga * beratBeliMM;
                 formContainer.querySelector('.totalPotonganHargaResult').textContent = `Total Potongan Harga: IDR ${totalPotonganHarga.toLocaleString()}`;
+                formContainer.querySelector('.totalPotonganHarga').value = totalPotonganHarga;  // Update totalPotonganHarga input field
             });
 
             formContainer.querySelector('.finalCalculateButton').addEventListener('click', function() {
