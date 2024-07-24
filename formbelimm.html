@@ -121,7 +121,7 @@
 
         function hitungHargaAkhir() {
             const totalHargaJual = document.getElementById('totalHargaJual').value;
-            const totalPotonganHarga = document.getElementById('totalPotonganHarga').value;
+            const totalPotonganHarga = document.getElementById('totalPotonganHarga').value || document.getElementById('resultPotonganHarga').textContent.replace(/\D/g, '');
             const hargaAkhir = totalHargaJual - totalPotonganHarga;
             document.getElementById('resultHargaAkhir').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
             
@@ -200,7 +200,7 @@
 
             formContainer.querySelector('.finalCalculateButton').addEventListener('click', function() {
                 const totalHargaJual = formContainer.querySelector('.totalHargaJual').value;
-                const totalPotonganHarga = formContainer.querySelector('.totalPotonganHarga').value;
+                const totalPotonganHarga = formContainer.querySelector('.totalPotonganHarga').value || formContainer.querySelector('.totalPotonganHargaResult').textContent.replace(/\D/g, '');
                 const hargaAkhir = totalHargaJual - totalPotonganHarga;
                 formContainer.querySelector('.finalPriceResult').textContent = `Harga Akhir setelah Potongan: IDR ${hargaAkhir.toLocaleString()}`;
                 
