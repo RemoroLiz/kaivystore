@@ -6,7 +6,7 @@
     <title>Form Penjualan</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-  <styles>
+  <style>
     body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -59,7 +59,7 @@ button:hover {
     background-color: #555;
 }
 
-  </styles>
+  </style>
 <body>
     <nav>
         <ul>
@@ -94,6 +94,7 @@ button:hover {
         <h2>Total Harga: <span id="total-harga">0</span></h2>
     </div>
     <script src="script.js"></script>
+    <script>
     document.addEventListener('DOMContentLoaded', function () {
     const kodeDropdowns = document.querySelectorAll('#kode');
     kodeDropdowns.forEach(kodeDropdown => {
@@ -158,6 +159,7 @@ function updateTotalHarga(hasil) {
     const currentTotal = parseInt(totalHargaElem.textContent);
     totalHargaElem.textContent = currentTotal + hasil;
 }
+        <\script>
 
 </body>
 </html>
