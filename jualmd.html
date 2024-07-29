@@ -112,9 +112,9 @@
             const hasilSebelumPembulatan = hasil;
 
             const mod = hasil % 1000;
-            if (mod < 500) {
+            if (mod > 0 && mod < 500) {
                 hasil = hasil - mod + 500;
-            } else {
+            } else if (mod > 500 && mod <1000) {
                 hasil = hasil - mod + 1000;
             }
 
