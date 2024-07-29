@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Penjualan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+  <styles>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    padding: 14px 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.container {
+    padding: 20px;
+}
+
+.form-penjualan {
+    margin-bottom: 20px;
+}
+
+label, select, input, button {
+    display: block;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+  </styles>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Penjualan</a></li>
+            <li><a href="#">Kontak</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Form Penjualan</h1>
+        <div id="forms-container">
+            <div class="form-penjualan">
+                <label for="kode">Kode Barang:</label>
+                <select id="kode">
+                    <option value="455000">35.5 B 6K</option>
+                    <option value="455000">36 XB 6K</option>
+                    <option value="555000">44 Kuning 8K</option>
+                    <option value="580000">46 Putih 8K</option>
+                    <option value="605000">48 Kuning 8K</option>
+                    <option value="620000">49 Putih 8K</option>
+                </select>
+                <label for="harga">Harga:</label>
+                <input type="number" id="harga" readonly>
+                <label for="berat">Berat (gr):</label>
+                <input type="number" id="berat">
+                <button onclick="hitungHarga(this)">Hitung</button>
+            </div>
+        </div>
+        <button id="tambah-barang" onclick="tambahForm()">Tambah Barang</button>
+        <h2>Hasil Penjualan</h2>
+        <div id="hasil"></div>
+        <h2>Total Harga: <span id="total-harga">0</span></h2>
+    </div>
+    <script src="script.js"></script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const kodeDropdowns = document.querySelectorAll('#kode');
+    kodeDropdowns.forEach(kodeDropdown => {
+        kodeDropdown.addEventListener('change', function () {
+            const hargaField = this.parentElement.querySelector('#harga');
+            hargaField.value = this.value;
+        });
+    });
+});
+
+function hitungHarga(button) {
+    const form = button.parentElement;
+    const harga = parseInt(form.querySelector('#harga').value);
+    const berat = parseFloat(form.querySelector('#berat').value);
+    let hasil = harga * berat;
+
+    if (hasil % 1000 < 500) {
+        hasil = hasil - (hasil % 1000) + 500;
+    } else {
+        hasil = hasil - (hasil % 1000) + 1000;
+    }
+
+    const hasilDiv = document.getElementById('hasil');
+    const hasilItem = document.createElement('div');
+    hasilItem.textContent = `Harga: ${harga}, Berat: ${berat}, Total: ${hasil}`;
+    hasilDiv.appendChild(hasilItem);
+
+    updateTotalHarga(hasil);
+}
+
+function tambahForm() {
+    const formsContainer = document.getElementById('forms-container');
+    const newForm = document.createElement('div');
+    newForm.className = 'form-penjualan';
+    newForm.innerHTML = `
+        <label for="kode">Kode Barang:</label>
+        <select id="kode">
+            <option value="455000">35.5 B 6K</option>
+            <option value="455000">36 XB 6K</option>
+            <option value="555000">44 Kuning 8K</option>
+            <option value="580000">46 Putih 8K</option>
+            <option value="605000">48 Kuning 8K</option>
+            <option value="620000">49 Putih 8K</option>
+        </select>
+        <label for="harga">Harga:</label>
+        <input type="number" id="harga" readonly>
+        <label for="berat">Berat (gr):</label>
+        <input type="number" id="berat">
+        <button onclick="hitungHarga(this)">Hitung</button>
+    `;
+    formsContainer.appendChild(newForm);
+
+    const kodeDropdown = newForm.querySelector('#kode');
+    kodeDropdown.addEventListener('change', function () {
+        const hargaField = this.parentElement.querySelector('#harga');
+        hargaField.value = this.value;
+    });
+}
+
+function updateTotalHarga(hasil) {
+    const totalHargaElem = document.getElementById('total-harga');
+    const currentTotal = parseInt(totalHargaElem.textContent);
+    totalHargaElem.textContent = currentTotal + hasil;
+}
+
+</body>
+</html>
