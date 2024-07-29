@@ -111,10 +111,11 @@
 
             const hasilSebelumPembulatan = hasil;
 
-            if (hasil % 1000 < 500) {
-                hasil = hasil - (hasil % 1000) + 500;
+            const mod = hasil % 1000;
+            if (mod < 500) {
+                hasil = hasil - mod + 500;
             } else {
-                hasil = hasil - (hasil % 1000) + 1000;
+                hasil = hasil - mod + 1000;
             }
 
             const hasilDiv = document.getElementById('hasil');
