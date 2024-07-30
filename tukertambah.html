@@ -1,0 +1,241 @@
+          <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Penjualan MT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        nav ul li {
+            padding: 14px 20px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .form-penjualan {
+            margin-bottom: 20px;
+        }
+        
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #555;
+        }
+        
+        .search-container {
+            margin: 10px 0;
+        }
+        
+        .form-beli {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="jualmd.html">Penjualan MD</a></li>
+            <li><a href="jualmt.html">Penjualan MT</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Form Penjualan</h1>
+        <div id="forms-container">
+            <div class="form-penjualan">
+                <label for="kode">Kode Barang:</label>
+                <input type="text" class="kode" placeholder="Cari barang...">
+                <label for="harga">Harga:</label>
+                <input type="text" class="harga" readonly>
+                <label for="berat">Berat (gr):</label>
+                <input type="number" class="berat">
+                <button onclick="hitungHarga(this)">Hitung</button>
+            </div>
+        </div>
+        <button id="tambah-barang" onclick="tambahForm()">Tambah Barang</button>
+        <button id="clear" onclick="clearAll()">Clear</button>
+        <h2>Hasil Penjualan</h2>
+        <div id="hasil"></div>
+        <h2>Total Harga: <span id="total-harga">0</span></h2>
+        
+        <div class="form-beli">
+            <h2>Form Beli</h2>
+            <label for="harga-nota">Harga Nota:</label>
+            <input type="number" id="harga-nota">
+            <label for="harga-pokok">Harga Pokok:</label>
+            <input type="number" id="harga-pokok">
+            <label for="potongan">Potongan:</label>
+            <input type="number" id="potongan">
+            <label for="berat-beli">Berat (gr):</label>
+            <input type="number" id="berat-beli">
+            <button onclick="hitungTotalBeli()">Hitung Total Beli</button>
+            <h2>Total Beli: <span id="total-beli">0</span></h2>
+        </div>
+    </div>
+    <script>
+        const barangData = {
+            "35.5 B 6K": 455000,
+            "36 XB 6K": 455000,
+            "44 Kuning 8K": 555000,
+            "46 Putih 8K": 580000,
+            "48 Kuning 8K": 605000,
+            "49 Putih 8K": 620000,
+            "75 16K": 933000,
+            "76 XB 16K": 942000,
+            "83 17K": 1029000,
+            "84 XB 17K": 1042000,
+            "78-79 BG&Amero 16K": 978000,
+            "89 LPM&Amero 17K": 1104000,
+            "90 SDW": 1116000
+        };
+
+        function hitungHarga(button) {
+            const form = button.parentElement;
+            const kodeInput = form.querySelector('.kode');
+            const harga = parseInt(kodeInput.dataset.harga || 0);
+            const berat = parseFloat(form.querySelector('.berat').value);
+            let hasil = Math.round(harga * berat);
+
+            const hasilSebelumPembulatan = hasil;
+
+            const mod = hasil % 1000;
+            if (mod > 0 && mod < 500) {
+                hasil = hasil - mod + 500;
+            } else if (mod > 500 && mod < 1000) {
+                hasil = hasil - mod + 1000;
+            }
+
+            const hasilDiv = document.getElementById('hasil');
+            const hasilItem = document.createElement('div');
+            hasilItem.textContent = `Harga: ${formatRupiah(harga.toString())}, Berat: ${berat}, Total Sebelum Pembulatan: ${formatRupiah(hasilSebelumPembulatan.toString())}, Total Setelah Pembulatan: ${formatRupiah(hasil.toString())}`;
+            hasilDiv.appendChild(hasilItem);
+
+            updateTotalHarga(hasil);
+        }
+
+        function tambahForm() {
+            const formsContainer = document.getElementById('forms-container');
+            const newForm = document.createElement('div');
+            newForm.className = 'form-penjualan';
+            newForm.innerHTML = `
+                <label for="kode">Kode Barang:</label>
+                <input type="text" class="kode" placeholder="Cari barang...">
+                <label for="harga">Harga:</label>
+                <input type="text" class="harga" readonly>
+                <label for="berat">Berat (gr):</label>
+                <input type="number" class="berat">
+                <button onclick="hitungHarga(this)">Hitung</button>
+            `;
+            formsContainer.appendChild(newForm);
+
+            initSearchBox(newForm.querySelector('.kode'));
+        }
+
+        function updateTotalHarga(hasil) {
+            const totalHargaElem = document.getElementById('total-harga');
+            const currentTotal = parseInt(totalHargaElem.textContent.replace(/[^0-9]/g, ''));
+            totalHargaElem.textContent = formatRupiah((currentTotal + hasil).toString());
+        }
+
+        function clearAll() {
+            document.getElementById('forms-container').innerHTML = `
+                <div class="form-penjualan">
+                    <label for="kode">Kode Barang:</label>
+                    <input type="text" class="kode" placeholder="Cari barang...">
+                    <label for="harga">Harga:</label>
+                    <input type="text" class="harga" readonly>
+                    <label for="berat">Berat (gr):</label>
+                    <input type="number" class="berat">
+                    <button onclick="hitungHarga(this)">Hitung</button>
+                </div>
+            `;
+            document.getElementById('hasil').innerHTML = '';
+            document.getElementById('total-harga').textContent = '0';
+
+            initSearchBox(document.querySelector('.kode'));
+        }
+
+        function formatRupiah(angka, prefix) {
+            const numberString = angka.replace(/[^,\d]/g, '').toString(),
+                split = numberString.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa) + split[0].substr(sisa).match(/\d{3}/g).join('.');
+
+            return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        function initSearchBox(inputElement) {
+            inputElement.addEventListener('input', function () {
+                const value = this.value.toLowerCase();
+                const match = Object.keys(barangData).find(key => key.toLowerCase().includes(value));
+                if (match) {
+                    this.value = match;
+                    this.dataset.harga = barangData[match];
+                    const hargaField = this.parentElement.querySelector('.harga');
+                    hargaField.value = formatRupiah(barangData[match].toString());
+                } else {
+                    this.dataset.harga = '';
+                    const hargaField = this.parentElement.querySelector('.harga');
+                    hargaField.value = '';
+                }
+            });
+        }
+
+        function hitungTotalBeli() {
+            const hargaNota = parseFloat(document.getElementById('harga-nota').value);
+            const hargaPokok = parseFloat(document.getElementById('harga-pokok').value);
+            const potongan = parseFloat(document.getElementById('potongan').value);
+            const beratBeli = parseFloat(document.getElementById('berat-beli').value);
+
+            let totalBeli = 0;
+            if (!isNaN(hargaNota) && hargaNota > 0) {
+     totalBeli = hargaNota - (potongan * beratBeli);
+            } else {
+                totalBeli = (hargaPokok - potongan) * beratBeli;
+            }
+
+            document.getElementById('total-beli').textContent = formatRupiah(totalBeli.toString());
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initSearchBox(document.querySelector('.kode'));
+        });
+
+    </script>
+</body>
+</html>
