@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Penjualan MT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        nav ul li {
+            padding: 14px 20px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .form-penjualan {
+            margin-bottom: 20px;
+        }
+        
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="jualmd.html">Penjualan MD</a></li>
+            <li><a href="jualmt.html">Penjualan MT</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Form Penjualan</h1>
+        <div id="forms-container">
+            <div class="form-penjualan">
+                <label for="kode">Kode Barang:</label>
+                <select class="kode">
+                    <option value=""> Pilih Barang </option>
+                    <option value="933500">75 16K</option>
+                    <option value="944000">76 XB 16K</option>
+                    <option value="1031000">83 17K</option>
+                    <option value="1043500">84  XB 17K</option>
+                    <option value="981500">78-79 BG&Amero 16K</option>
+                    <option value="1105500">89 LPM&Amero 17K</option>
+                    <option value="1118000">90 SDW</option>
+                </select>
+                <label for="harga">Harga:</label>
+                <input type="text" class="harga" readonly>
+                <label for="berat">Berat (gr):</label>
+                <input type="number" class="berat">
+                <button onclick="hitungHarga(this)">Hitung</button>
+            </div>
+        </div>
+        <button id="tambah-barang" onclick="tambahForm()">Tambah Barang</button>
+        <button id="clear" onclick="clearAll()">Clear</button>
+        <h2>Hasil Penjualan</h2>
+        <div id="hasil"></div>
+        <h2>Total Harga: <span id="total-harga">0</span></h2>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const kodeDropdowns = document.querySelectorAll('.kode');
+            kodeDropdowns.forEach(kodeDropdown => {
+                kodeDropdown.addEventListener('change', function () {
+                    const hargaField = this.parentElement.querySelector('.harga');
+                    hargaField.value = formatRupiah(this.value);
+                });
+            });
+        });
+
+        function hitungHarga(button) {
+            const form = button.parentElement;
+            const harga = parseInt(form.querySelector('.harga').value.replace(/[^0-9]/g, ''));
+            const berat = parseFloat(form.querySelector('.berat').value);
+            let hasil = Math.round(harga * berat);
+
+            const hasilSebelumPembulatan = hasil;
+
+            const mod = hasil % 1000;
+            if (mod > 0 && mod < 500) {
+                hasil = hasil - mod + 500;
+            } else if (mod > 500 && mod < 1000) {
+                hasil = hasil - mod + 1000;
+            }
+
+            const hasilDiv = document.getElementById('hasil');
+            const hasilItem = document.createElement('div');
+            hasilItem.textContent = `Harga: ${formatRupiah(harga.toString())}, Berat: ${berat}, Total Sebelum Pembulatan: ${formatRupiah(hasilSebelumPembulatan.toString())}, Total Setelah Pembulatan: ${formatRupiah(hasil.toString())}`;
+            hasilDiv.appendChild(hasilItem);
+
+            updateTotalHarga(hasil);
+        }
+
+        function tambahForm() {
+            const formsContainer = document.getElementById('forms-container');
+            const newForm = document.createElement('div');
+            newForm.className = 'form-penjualan';
+            newForm.innerHTML = `
+                <label for="kode">Kode Barang:</label>
+                <select class="kode">
+                    <option value=""> Pilih Barang </option>
+                    <option value="933500">75 16K</option>
+                    <option value="944000">76 XB 16K</option>
+                    <option value="1031000">83 17K</option>
+                    <option value="1043500">84  XB 17K</option>
+                    <option value="981500">78-79 BG&Amero 16K</option>
+                    <option value="1105500">89 LPM&Amero 17K</option>
+                    <option value="1118000">90 SDW</option>
+                </select>
+                <label for="harga">Harga:</label>
+                <input type="text" class="harga" readonly>
+                <label for="berat">Berat (gr):</label>
+                <input type="number" class="berat">
+                <button onclick="hitungHarga(this)">Hitung</button>
+            `;
+            formsContainer.appendChild(newForm);
+
+            const kodeDropdown = newForm.querySelector('.kode');
+            kodeDropdown.addEventListener('change', function () {
+                const hargaField = this.parentElement.querySelector('.harga');
+                hargaField.value = formatRupiah(this.value);
+            });
+        }
+
+        function updateTotalHarga(hasil) {
+            const totalHargaElem = document.getElementById('total-harga');
+            const currentTotal = parseInt(totalHargaElem.textContent.replace(/[^0-9]/g, ''));
+            totalHargaElem.textContent = formatRupiah((currentTotal + hasil).toString());
+        }
+
+        function clearAll() {
+            document.getElementById('forms-container').innerHTML = `
+                <div class="form-penjualan">
+                    <label for="kode">Kode Barang:</label>
+                    <select class="kode">
+                        <option value="455000">35.5 B 6K</option>
+                        <option value="455000">36 XB 6K</option>
+                        <option value="555000">44 Kuning 8K</option>
+                        <option value="580000">46 Putih 8K</option>
+                        <option value="605000">48 Kuning 8K</option>
+                        <option value="620000">49 Putih 8K</option>
+                    </select>
+                    <label for="harga">Harga:</label>
+                    <input type="text" class="harga" readonly>
+                    <label for="berat">Berat (gr):</label>
+                    <input type="number" class="berat">
+                    <button onclick="hitungHarga(this)">Hitung</button>
+                </div>
+            `;
+            document.getElementById('hasil').innerHTML = '';
+            document.getElementById('total-harga').textContent = '0';
+
+            // Reinitialize event listeners for the newly added form
+            const kodeDropdowns = document.querySelectorAll('.kode');
+            kodeDropdowns.forEach(kodeDropdown => {
+                kodeDropdown.addEventListener('change', function () {
+                    const hargaField = this.parentElement.querySelector('.harga');
+                    hargaField.value = formatRupiah(this.value);
+                });
+            });
+        }
+
+        function formatRupiah(angka, prefix) {
+            const numberString = angka.replace(/[^,\d]/g, '').toString(),
+                split = numberString.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa) + split[0].substr(sisa).match(/\d{3}/g).join('.');
+
+            return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
+</body>
+</html>
