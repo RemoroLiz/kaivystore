@@ -107,14 +107,14 @@
             const form = button.parentElement;
             const harga = parseInt(form.querySelector('.harga').value.replace(/[^0-9]/g, ''));
             const berat = parseFloat(form.querySelector('.berat').value);
-            let hasil = harga * berat;
+            let hasil = Math.round(harga * berat);
 
             const hasilSebelumPembulatan = hasil;
 
             const mod = hasil % 1000;
             if (mod > 0 && mod < 500) {
                 hasil = hasil - mod + 500;
-            } else if (mod > 500 && mod <1000) {
+            } else if (mod > 500 && mod < 600) {
                 hasil = hasil - mod + 1000;
             }
 
@@ -192,7 +192,8 @@
                 });
             });
         }
-function formatRupiah(angka, prefix) {
+
+        function formatRupiah(angka, prefix) {
             const numberString = angka.replace(/[^,\d]/g, '').toString(),
                 split = numberString.split(','),
                 sisa = split[0].length % 3,
@@ -200,7 +201,6 @@ function formatRupiah(angka, prefix) {
 
             return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
-        
     </script>
 </body>
 </html>
