@@ -1,4 +1,4 @@
-          <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -80,6 +80,9 @@
             <div class="form-penjualan">
                 <label for="kode">Kode Barang:</label>
                 <input type="text" class="kode" placeholder="Cari barang...">
+                <select class="kode-dropdown" size="5" style="display: none;">
+                    <!-- Opsi akan diisi secara dinamis -->
+                </select>
                 <label for="harga">Harga:</label>
                 <input type="text" class="harga" readonly>
                 <label for="berat">Berat (gr):</label>
@@ -140,12 +143,19 @@
                 hasil = hasil - mod + 1000;
             }
 
+            // Hapus hasil sebelumnya dari form yang sama
+            const formIndex = Array.from(form.parentElement.children).indexOf(form);
+            const existingResults = document.querySelectorAll(`.hasil-item[data-form-index="${formIndex}"]`);
+            existingResults.forEach(item => item.remove());
+
             const hasilDiv = document.getElementById('hasil');
             const hasilItem = document.createElement('div');
+            hasilItem.className = 'hasil-item';
+            hasilItem.dataset.formIndex = formIndex;
             hasilItem.textContent = `Harga: ${formatRupiah(harga.toString())}, Berat: ${berat}, Total Sebelum Pembulatan: ${formatRupiah(hasilSebelumPembulatan.toString())}, Total Setelah Pembulatan: ${formatRupiah(hasil.toString())}`;
             hasilDiv.appendChild(hasilItem);
 
-            updateTotalHarga(hasil);
+            updateTotalHarga();
         }
 
         function tambahForm() {
@@ -155,6 +165,9 @@
             newForm.innerHTML = `
                 <label for="kode">Kode Barang:</label>
                 <input type="text" class="kode" placeholder="Cari barang...">
+                <select class="kode-dropdown" size="5" style="display: none;">
+                    <!-- Opsi akan diisi secara dinamis -->
+                </select>
                 <label for="harga">Harga:</label>
                 <input type="text" class="harga" readonly>
                 <label for="berat">Berat (gr):</label>
@@ -166,10 +179,15 @@
             initSearchBox(newForm.querySelector('.kode'));
         }
 
-        function updateTotalHarga(hasil) {
+        function updateTotalHarga() {
             const totalHargaElem = document.getElementById('total-harga');
-            const currentTotal = parseInt(totalHargaElem.textContent.replace(/[^0-9]/g, ''));
-            totalHargaElem.textContent = formatRupiah((currentTotal + hasil).toString());
+            const hasilItems = document.querySelectorAll('.hasil-item');
+            let total = 0;
+            hasilItems.forEach(item => {
+                const totalSetelahPembulatan = parseInt(item.textContent.match(/Total Setelah Pembulatan: Rp\. (\d+)/)[1].replace(/\./g, ''));
+                total += totalSetelahPembulatan;
+            });
+            totalHargaElem.textContent = formatRupiah(total.toString());
         }
 
         function clearAll() {
@@ -177,6 +195,9 @@
                 <div class="form-penjualan">
                     <label for="kode">Kode Barang:</label>
                     <input type="text" class="kode" placeholder="Cari barang...">
+                    <select class="kode-dropdown" size="5" style="display: none;">
+                        <!-- Opsi akan diisi secara dinamis -->
+                    </select>
                     <label for="harga">Harga:</label>
                     <input type="text" class="harga" readonly>
                     <label for="berat">Berat (gr):</label>
@@ -187,6 +208,7 @@
             document.getElementById('hasil').innerHTML = '';
             document.getElementById('total-harga').textContent = '0';
 
+            // Reinitialize searchbox for the newly added form
             initSearchBox(document.querySelector('.kode'));
         }
 
@@ -199,43 +221,62 @@
             return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
 
-        function initSearchBox(inputElement) {
-            inputElement.addEventListener('input', function () {
-                const value = this.value.toLowerCase();
-                const match = Object.keys(barangData).find(key => key.toLowerCase().includes(value));
-                if (match) {
-                    this.value = match;
-                    this.dataset.harga = barangData[match];
-                    const hargaField = this.parentElement.querySelector('.harga');
-                    hargaField.value = formatRupiah(barangData[match].toString());
-                } else {
-                    this.dataset.harga = '';
-                    const hargaField = this.parentElement.querySelector('.harga');
-                    hargaField.value = '';
+                function initSearchBox(input) {
+            input.addEventListener('input', function () {
+                const dropdown = this.nextElementSibling;
+                const searchValue = this.value.toLowerCase();
+                dropdown.innerHTML = '';
+                dropdown.style.display = 'none';
+
+                if (searchValue.length > 0) {
+                    const filteredItems = Object.keys(barangData).filter(item => item.toLowerCase().includes(searchValue));
+                    if (filteredItems.length > 0) {
+                        filteredItems.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item;
+                            option.textContent = item;
+                            dropdown.appendChild(option);
+                        });
+                        dropdown.style.display = 'block';
+                    }
                 }
+            });
+
+            input.addEventListener('focus', function () {
+                const dropdown = this.nextElementSibling;
+                if (dropdown.children.length > 0) {
+                    dropdown.style.display = 'block';
+                }
+            });
+
+            input.addEventListener('blur', function () {
+                setTimeout(() => {
+                    this.nextElementSibling.style.display = 'none';
+                }, 100);
+            });
+
+            input.nextElementSibling.addEventListener('change', function () {
+                const selectedItem = this.value;
+                const hargaInput = this.previousElementSibling.nextElementSibling.nextElementSibling;
+                hargaInput.value = formatRupiah(barangData[selectedItem].toString());
+                hargaInput.previousElementSibling.dataset.harga = barangData[selectedItem];
             });
         }
 
         function hitungTotalBeli() {
-            const hargaNota = parseFloat(document.getElementById('harga-nota').value);
-            const hargaPokok = parseFloat(document.getElementById('harga-pokok').value);
-            const potongan = parseFloat(document.getElementById('potongan').value);
-            const beratBeli = parseFloat(document.getElementById('berat-beli').value);
-
-            let totalBeli = 0;
-            if (!isNaN(hargaNota) && hargaNota > 0) {
-     totalBeli = hargaNota - (potongan * beratBeli);
-            } else {
-                totalBeli = (hargaPokok - potongan) * beratBeli;
-            }
-
+            const hargaNota = parseInt(document.getElementById('harga-nota').value || 0);
+            const hargaPokok = parseInt(document.getElementById('harga-pokok').value || 0);
+            const potongan = parseInt(document.getElementById('potongan').value || 0);
+            const beratBeli = parseFloat(document.getElementById('berat-beli').value || 0);
+            const totalBeli = (hargaNota + hargaPokok - potongan) * beratBeli;
             document.getElementById('total-beli').textContent = formatRupiah(totalBeli.toString());
         }
 
+        // Inisialisasi form pertama kali
         document.addEventListener('DOMContentLoaded', function () {
             initSearchBox(document.querySelector('.kode'));
         });
-
     </script>
 </body>
 </html>
+
