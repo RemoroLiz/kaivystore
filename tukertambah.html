@@ -276,11 +276,42 @@
 
             document.getElementById('total-beli').textContent = formatRupiah(totalBeli.toString());
         }
+        // Fungsi inisialisasi dropdown dengan pencarian
+function initSearchBox(dropdown) {
+    const options = Array.from(dropdown.options);
 
-        // Inisialisasi form pertama kali
-        document.addEventListener('DOMContentLoaded', function () {
-            initSearchBox(document.querySelector('.kode'));
-        });
+    dropdown.addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        const filteredOptions = options.filter(option => option.text.toLowerCase().includes(searchValue));
+        
+        // Remove existing options
+        dropdown.innerHTML = '';
+        
+        // Append filtered options
+        filteredOptions.forEach(option => dropdown.appendChild(option));
+        
+        // If no match, show "No results found"
+        if (filteredOptions.length === 0) {
+            const noResultsOption = document.createElement('option');
+            noResultsOption.disabled = true;
+            noResultsOption.textContent = 'No results found';
+            dropdown.appendChild(noResultsOption);
+        }
+    });
+
+    dropdown.addEventListener('change', function () {
+        const hargaInput = this.parentElement.querySelector('.harga');
+        hargaInput.value = formatRupiah(this.value);
+        hargaInput.dataset.harga = this.value;
+    });
+}
+
+// Inisialisasi dropdown pada form penjualan
+document.addEventListener('DOMContentLoaded', function () {
+    const kodeDropdown = document.querySelector('.kode');
+    initSearchBox(kodeDropdown);
+});
+
     </script>
 </body>
 </html>
