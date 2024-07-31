@@ -259,15 +259,17 @@
             document.getElementById('total-beli').textContent = formatRupiah(totalBeli.toString());
         }
 
+        
         document.addEventListener('DOMContentLoaded', function () {
-            const kodeDropdown = document.querySelector('.kode');
-            kodeDropdown.addEventListener('change', function () {
-                const selectedItem = this.options[this.selectedIndex].text;
-                const hargaInput = this.parentElement.querySelector('.harga');
-                hargaInput.value = formatRupiah(barangData[selectedItem].toString());
-                hargaInput.dataset.harga = barangData[selectedItem];
-            });
-        });
+    const kodeDropdown = document.querySelector('.kode');
+    kodeDropdown.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const harga = selectedOption.dataset.harga;
+        const hargaInput = this.parentElement.querySelector('.harga');
+        hargaInput.value = formatRupiah(harga);
+    });
+});
+
     </script>
 </body>
 </html>
