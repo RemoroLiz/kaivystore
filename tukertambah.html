@@ -43,22 +43,22 @@
                 <div class="form-group">
                     <label for="kode">Kode Barang:</label>
                     <!-- Kode Barang Dropdown -->
-<select class="form-control kode">
-    <option value="">Pilih Barang</option>
-    <option value="455000">35.5 B 6K</option>
-    <option value="455000">36 XB 6K</option>
-    <option value="555000">44 Kuning 8K</option>
-    <option value="580000">46 Putih 8K</option>
-    <option value="605000">48 Kuning 8K</option>
-    <option value="620000">49 Putih 8K</option>
-    <option value="933000">75 16K</option>
-    <option value="942000">76 XB 16K</option>
-    <option value="1029000">83 17K</option>
-    <option value="1042000">84 XB 17K</option>
-    <option value="978000">78-79 BG&Amero 16K</option>
-    <option value="1104000">89 LPM&Amero 17K</option>
-    <option value="1116000">90 SDW</option>
-</select>
+                    <select class="form-control kode">
+                        <option value="">Pilih Barang</option>
+                        <option value="455000">35.5 B 6K</option>
+                        <option value="455000">36 XB 6K</option>
+                        <option value="555000">44 Kuning 8K</option>
+                        <option value="580000">46 Putih 8K</option>
+                        <option value="605000">48 Kuning 8K</option>
+                        <option value="620000">49 Putih 8K</option>
+                        <option value="933000">75 16K</option>
+                        <option value="942000">76 XB 16K</option>
+                        <option value="1029000">83 17K</option>
+                        <option value="1042000">84 XB 17K</option>
+                        <option value="978000">78-79 BG&Amero 16K</option>
+                        <option value="1104000">89 LPM&Amero 17K</option>
+                        <option value="1116000">90 SDW</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="harga">Harga:</label>
@@ -123,7 +123,7 @@
         function hitungHarga(button) {
             const form = button.parentElement;
             const kodeInput = form.querySelector('.kode');
-            const harga = parseInt(kodeInput.dataset.harga || 0);
+            const harga = parseInt(kodeInput.value || 0);
             const berat = parseFloat(form.querySelector('.berat').value);
             let hasil = Math.round(harga * berat);
 
@@ -157,8 +157,22 @@
             newForm.innerHTML = `
                 <div class="form-group">
                     <label for="kode">Kode Barang:</label>
-                    <input type="text" class="form-control kode" placeholder="Cari barang...">
-                    <select class="form-control kode-dropdown mt-2" size="5" style="display: none;"></select>
+                    <select class="form-control kode">
+                        <option value="">Pilih Barang</option>
+                        <option value="455000">35.5 B 6K</option>
+                        <option value="455000">36 XB 6K</option>
+                        <option value="555000">44 Kuning 8K</option>
+                        <option value="580000">46 Putih 8K</option>
+                        <option value="605000">48 Kuning 8K</option>
+                        <option value="620000">49 Putih 8K</option>
+                        <option value="933000">75 16K</option>
+                        <option value="942000">76 XB 16K</option>
+                        <option value="1029000">83 17K</option>
+                        <option value="1042000">84 XB 17K</option>
+                        <option value="978000">78-79 BG&Amero 16K</option>
+                        <option value="1104000">89 LPM&Amero 17K</option>
+                        <option value="1116000">90 SDW</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="harga">Harga:</label>
@@ -171,8 +185,6 @@
                 <button class="btn btn-dark" onclick="hitungHarga(this)">Hitung</button>
             `;
             formsContainer.appendChild(newForm);
-
-            initSearchBox(newForm.querySelector('.kode'));
         }
 
         function updateTotalHarga() {
@@ -191,8 +203,22 @@
                 <div class="form-penjualan">
                     <div class="form-group">
                         <label for="kode">Kode Barang:</label>
-                        <input type="text" class="form-control kode" placeholder="Cari barang...">
-                        <select class="form-control kode-dropdown mt-2" size="5" style="display: none;"></select>
+                        <select class="form-control kode">
+                            <option value="">Pilih Barang</option>
+                            <option value="455000">35.5 B 6K</option>
+                            <option value="455000">36 XB 6K</option>
+                            <option value="555000">44 Kuning 8K</option>
+                            <option value="580000">46 Putih 8K</option>
+                            <option value="605000">48 Kuning 8K</option>
+                            <option value="620000">49 Putih 8K</option>
+                            <option value="933000">75 16K</option>
+                            <option value="942000">76 XB 16K</option>
+                            <option value="1029000">83 17K</option>
+                            <option value="1042000">84 XB 17K</option>
+                            <option value="978000">78-79 BG&Amero 16K</option>
+                            <option value="1104000">89 LPM&Amero 17K</option>
+                            <option value="1116000">90 SDW</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="harga">Harga:</label>
@@ -207,8 +233,6 @@
             `;
             document.getElementById('hasil').innerHTML = '';
             document.getElementById('total-harga').textContent = '0';
-
-            initSearchBox(document.querySelector('.kode'));
         }
 
         function formatRupiah(angka, prefix) {
@@ -217,48 +241,6 @@
             const sisa = split[0].length % 3;
             const rupiah = split[0].substr(0, sisa) + split[0].substr(sisa).match(/\d{3}/g).join('.');
             return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        }
-
-        function initSearchBox(input) {
-            input.addEventListener('input', function () {
-                const dropdown = this.nextElementSibling;
-                const searchValue = this.value.toLowerCase();
-                dropdown.innerHTML = '';
-                dropdown.style.display = 'none';
-
-                if (searchValue.length > 0) {
-                    const filteredItems = Object.keys(barangData).filter(item => item.toLowerCase().includes(searchValue));
-                    if (filteredItems.length > 0) {
-                        filteredItems.forEach(item => {
-                            const option = document.createElement('option');
-                            option.value = item;
-                            option.textContent = item;
-                            dropdown.appendChild(option);
-                        });
-                        dropdown.style.display = 'block';
-                    }
-                }
-            });
-
-            input.addEventListener('focus', function () {
-                const dropdown = this.nextElementSibling;
-                if (dropdown.children.length > 0) {
-                    dropdown.style.display = 'block';
-                }
-            });
-
-            input.addEventListener('blur', function () {
-                setTimeout(() => {
-                    this.nextElementSibling.style.display = 'none';
-                }, 100);
-            });
-
-            input.nextElementSibling.addEventListener('change', function () {
-                const selectedItem = this.value;
-                const hargaInput = this.previousElementSibling.nextElementSibling.nextElementSibling;
-                hargaInput.value = formatRupiah(barangData[selectedItem].toString());
-                hargaInput.previousElementSibling.dataset.harga = barangData[selectedItem];
-            });
         }
 
         function hitungTotalBeli() {
@@ -276,43 +258,18 @@
 
             document.getElementById('total-beli').textContent = formatRupiah(totalBeli.toString());
         }
-        // Fungsi inisialisasi dropdown dengan pencarian
-function initSearchBox(dropdown) {
-    const options = Array.from(dropdown.options);
 
-    dropdown.addEventListener('input', function () {
-        const searchValue = this.value.toLowerCase();
-        const filteredOptions = options.filter(option => option.text.toLowerCase().includes(searchValue));
-        
-        // Remove existing options
-        dropdown.innerHTML = '';
-        
-        // Append filtered options
-        filteredOptions.forEach(option => dropdown.appendChild(option));
-        
-        // If no match, show "No results found"
-        if (filteredOptions.length === 0) {
-            const noResultsOption = document.createElement('option');
-            noResultsOption.disabled = true;
-            noResultsOption.textContent = 'No results found';
-            dropdown.appendChild(noResultsOption);
-        }
-    });
-
-    dropdown.addEventListener('change', function () {
-        const hargaInput = this.parentElement.querySelector('.harga');
-        hargaInput.value = formatRupiah(this.value);
-        hargaInput.dataset.harga = this.value;
-    });
-}
-
-// Inisialisasi dropdown pada form penjualan
-document.addEventListener('DOMContentLoaded', function () {
-    const kodeDropdown = document.querySelector('.kode');
-    initSearchBox(kodeDropdown);
-});
-
+        document.addEventListener('DOMContentLoaded', function () {
+            const kodeDropdown = document.querySelector('.kode');
+            kodeDropdown.addEventListener('change', function () {
+                const selectedItem = this.options[this.selectedIndex].text;
+                const hargaInput = this.parentElement.querySelector('.harga');
+                hargaInput.value = formatRupiah(barangData[selectedItem].toString());
+                hargaInput.dataset.harga = barangData[selectedItem];
+            });
+        });
     </script>
 </body>
 </html>
-             
+
+        
