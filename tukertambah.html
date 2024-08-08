@@ -47,47 +47,49 @@
 
     <div class="container mt-5">
         <h2>Form Penjualan Emas</h2>
-        <form id="formEmas" class="penjualan-form">
-            <div class="row mb-3">
-                <label for="kodeEmas" class="col-sm-2 col-form-label">Kode Emas</label>
-                <div class="col-sm-10">
-                    <select class="form-select kodeEmas" required>
-                        <option value="" selected>Pilih Kode</option>
-                        <option value="35.5 B">35.5 B 6K | 455000</option>
-                        <option value="36 XB">36 XB 6K | 455000</option>
-                        <option value="38 Juene">38 Juene 7K | 480000</option>
-                        <option value="44 Kuning">44 Kuning 8K | 555000</option>
-                        <option value="46 Putih">46 Putih 8K | 580000</option>
-                        <option value="46.5 Putih">46.5 Putih 8K | 585000</option>
-                        <option value="48 Kuning">48 Kuning 9K | 605000</option>
-                        <option value="49 Putih">49 Putih 9K | 620000</option>
-                        <option value="54 VC">54 VC 9K | 671000</option>
-                        <option value="75 16K B">75 16K B | 934000</option>
-                        <option value="76 16K XB">76 16K XB | 946500</option>
-                        <option value="78-79 16K BG/Amero">78-79 16K BG/Amero | 984000</option>
-                        <option value="83 17K B">83 17K B | 1033500</option>
-                        <option value="84 17 K XB">84 17 K XB | 1046000</option>
-                        <option value="89 17K LPM/Amero">89 17K LPM/Amero | 1108500</option>
-                        <option value="90 SDW">90 SDW | 1120500</option>
-                    </select>
+        <div id="formContainer">
+            <form id="formEmas" class="penjualan-form">
+                <div class="row mb-3">
+                    <label for="kodeEmas" class="col-sm-2 col-form-label">Kode Emas</label>
+                    <div class="col-sm-10">
+                        <select class="form-select kodeEmas" required>
+                            <option value="" selected>Pilih Kode</option>
+                            <option value="35.5 B">35.5 B 6K | 455000</option>
+                            <option value="36 XB">36 XB 6K | 455000</option>
+                            <option value="38 Juene">38 Juene 7K | 480000</option>
+                            <option value="44 Kuning">44 Kuning 8K | 555000</option>
+                            <option value="46 Putih">46 Putih 8K | 580000</option>
+                            <option value="46.5 Putih">46.5 Putih 8K | 585000</option>
+                            <option value="48 Kuning">48 Kuning 9K | 605000</option>
+                            <option value="49 Putih">49 Putih 9K | 620000</option>
+                            <option value="54 VC">54 VC 9K | 671000</option>
+                            <option value="75 16K B">75 16K B | 934000</option>
+                            <option value="76 16K XB">76 16K XB | 946500</option>
+                            <option value="78-79 16K BG/Amero">78-79 16K BG/Amero | 984000</option>
+                            <option value="83 17K B">83 17K B | 1033500</option>
+                            <option value="84 17 K XB">84 17 K XB | 1046000</option>
+                            <option value="89 17K LPM/Amero">89 17K LPM/Amero | 1108500</option>
+                            <option value="90 SDW">90 SDW | 1120500</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="hargaEmas" class="col-sm-2 col-form-label">Harga</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control hargaEmas" readonly>
+                <div class="row mb-3">
+                    <label for="hargaEmas" class="col-sm-2 col-form-label">Harga</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control hargaEmas" readonly>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <label for="beratEmas" class="col-sm-2 col-form-label">Berat (gram)</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control beratEmas" required>
+                <div class="row mb-3">
+                    <label for="beratEmas" class="col-sm-2 col-form-label">Berat (gram)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control beratEmas" required>
+                    </div>
                 </div>
-            </div>
-            <button type="button" class="btn btn-primary hitungBtn">Hitung</button>
-            <button type="button" class="btn btn-success tambahBarangBtn">Tambah Barang</button>
-            <button type="reset" class="btn btn-danger clearBtn">Clear Data</button>
-        </form>
+                <button type="button" class="btn btn-primary hitungBtn">Hitung</button>
+                <button type="button" class="btn btn-success tambahBarangBtn">Tambah Barang</button>
+                <button type="reset" class="btn btn-danger clearBtn">Clear Data</button>
+            </form>
+        </div>
 
         <div id="detailPenjualan" class="mt-5"></div>
         <div id="totalPenjualan" class="mt-3"></div>
@@ -175,9 +177,15 @@
         $(document).on('click', '.tambahBarangBtn', function () {
             let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
             formClone.find('.detailCard').remove();
-            formClone.find('.hitungBtn').remove();
-            formClone.find('.tambahBarangBtn').remove();
-            $('#detailPenjualan').append(formClone);
+            formClone.find('.tambahBarangBtn').text('Hapus Barang').removeClass('tambahBarangBtn btn-success').addClass('hapusBarangBtn btn-danger');
+            $('#formContainer').append(formClone);
+        });
+
+        $(document).on('click', '.hapusBarangBtn', function () {
+            let form = $(this).closest('form');
+            let hasilBulat = form.data('hasilBulat') || 0;
+            updateTotalPenjualan(-hasilBulat);
+            form.remove();
         });
 
         $(document).on('click', '.clearBtn', function () {
