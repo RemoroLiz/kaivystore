@@ -129,15 +129,19 @@
             }
 
             let remainder = hasilAwal % 1000;
-            if (remainder < 500) {
-                hasilBulat = hasilAwal - remainder + 500;
-            } else {
-                hasilBulat = hasilAwal - remainder + 1000;
-            }
 
-            return { hasilAwal, hasilBulat };
-        }
+if (remainder >= 1 && remainder <= 499) {
+    hasilBulat = hasilAwal - remainder + 500;
+} else if (remainder >= 501 && remainder <= 999) {
+    hasilBulat = hasilAwal - remainder + 1000;
+} else {
+    // Untuk kasus di mana remainder adalah 0 atau angka bulat lainnya
+    hasilBulat = hasilAwal;
+}
 
+return { hasilAwal, hasilBulat };
+
+            
         function updateTotalPenjualan(amount) {
             totalPenjualan += amount;
             $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
