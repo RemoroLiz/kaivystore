@@ -138,7 +138,7 @@
 
                 return { hasilAwal, hasilBulat, tambahan10Persen, hargaFix };
             } else {
-                return { hasilAwal, hasilBulat: Math.round(hasilAwal / 1000) * 1000 };
+                return { hasilAwal, hasilBulat: Math.round(hasilAwal / 1000) * 1000, hargaFix: Math.round(hasilAwal / 1000) * 1000 };
             }
         }
 
@@ -156,7 +156,7 @@
                         <p class="card-text">Harga: Rp. ${harga.toLocaleString()}</p>
                         <p class="card-text hasilAwalText">Hasil Awal: Rp. ${hasilAwal.toLocaleString()} <button type="button" class="btn btn-link btn-sm hideAwalBtn">Sembunyikan</button></p>`;
 
-            if (kode === "38 Juene" || kode === "54 VC") {
+            if (kode === "38 Juene" atau kode === "54 VC") {
                 detail += `
                         <p class="card-text">Harga Sebelum Dibulatkan: Rp. ${hasilAwal.toLocaleString()}</p>
                         <p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>
@@ -170,10 +170,15 @@
             return detail;
         }
 
-        $(document).on('change', '.kodeEmas', function () {
-            let kode = $(this).val();
-            let harga = hargaEmas[kode] || '';
-            $(this).closest('form').find('.hargaEmas').val(harga ? 'Rp. ' + harga.toLocaleString() : '');
+        $(document).on('change', '.kodeEmas, .beratEmas', function () {
+            let form = $(this).closest('form');
+            let previousHasilBulat = form.data('hasilBulat') || 0;
+
+            // Update total penjualan dengan mengurangi hargaFix sebelumnya
+            updateTotalPenjualan(-previousHasilBulat);
+
+            // Reset data hasilBulat form
+            form.removeData('hasilBulat');
         });
 
         $(document).on('click', '.hitungBtn', function () {
@@ -188,10 +193,14 @@
 
                 form.find('.detailCard').remove(); // Remove previous detail
                 form.append(`<div class="detailCard">${detail}</div>`);
-                
+
                 let previousHasilBulat = form.data('hasilBulat') || 0;
+
+                // Update total penjualan dengan mengurangi hargaFix sebelumnya dan menambah hargaFix baru
                 updateTotalPenjualan(hargaFix - previousHasilBulat);
-                form.data('hasilBulat', hargaFix); // Store the new hargaFix
+
+                // Store the new hargaFix
+                form.data('hasilBulat', hargaFix);
             }
         });
 
@@ -208,7 +217,10 @@
         $(document).on('click', '.hapusBarangBtn', function () {
             let form = $(this).closest('form');
             let hasilBulat = form.data('hasilBulat') || 0;
+
+            // Update total penjualan dengan mengurangi hargaFix dari form yang dihapus
             updateTotalPenjualan(-hasilBulat);
+
             form.remove();
         });
 
