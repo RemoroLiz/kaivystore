@@ -119,22 +119,27 @@
         };
 
         let totalPenjualan = 0;
-
+        
         function calculatePrice(kode, berat) {
     let harga = hargaEmas[kode];
     let hasilAwal = harga * berat;
-    let hasilBulat = Math.round(hasilAwal / 1000) * 1000;
+    let hasilBulat;
+
+    // Pembulatan ke 500 atau 1000
+    let remainder = hasilAwal % 1000;
+    if (remainder >= 1 && remainder <= 499) {
+        hasilBulat = hasilAwal - remainder + 500;
+    } else if (remainder >= 500 && remainder <= 999) {
+        hasilBulat = hasilAwal - remainder + 1000;
+    } else {
+        hasilBulat = hasilAwal;
+    }
+
     let tambahan10Persen = 0;
     let hargaFix = hasilBulat;
 
+    // Pembulatan khusus untuk kode "Juene" dan "VC"
     if (kode === "38 Juene" || kode === "54 VC") {
-        let remainder = hasilAwal % 1000;
-        if (remainder >= 001 && remainder <= 499) {
-            hasilBulat = hasilAwal - remainder + 500;
-        } else if (remainder >= 501 && remainder <= 999) {
-            hasilBulat = hasilAwal - remainder + 1000;
-        }
-
         tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
         hargaFix = hasilBulat + tambahan10Persen;
     }
