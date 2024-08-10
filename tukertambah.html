@@ -121,26 +121,28 @@
         let totalPenjualan = 0;
 
         function calculatePrice(kode, berat) {
-            let harga = hargaEmas[kode];
-            let hasilAwal = harga * berat;
-            let hasilBulat = hasilAwal;
+    let harga = hargaEmas[kode];
+    let hasilAwal = harga * berat;
+    let hasilBulat = Math.round(hasilAwal / 1000) * 1000;
+    let hargaFix;
 
-            if (kode === "38 Juene" || kode === "54 VC") {
-                let remainder = hasilAwal % 1000;
-                if (remainder >= 1 && remainder <= 499) {
-                    hasilBulat = hasilAwal - remainder + 500;
-                } else if (remainder >= 501 && remainder <= 999) {
-                    hasilBulat = hasilAwal - remainder + 1000;
-                }
-
-                let tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
-                let hargaFix = hasilBulat + tambahan10Persen;
-
-                return { hasilAwal, hasilBulat, tambahan10Persen, hargaFix };
-            } else {
-                return { hasilAwal, hasilBulat: Math.round(hasilAwal / 1000) * 1000 };
-            }
+    if (kode === "38 Juene" || kode === "54 VC") {
+        let remainder = hasilAwal % 1000;
+        if (remainder >= 1 && remainder <= 499) {
+            hasilBulat = hasilAwal - remainder + 500;
+        } else if (remainder >= 501 && remainder <= 999) {
+            hasilBulat = hasilAwal - remainder + 1000;
         }
+
+        let tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
+        hargaFix = hasilBulat + tambahan10Persen;
+    } else {
+        hargaFix = hasilBulat;
+    }
+
+    return { hasilAwal, hasilBulat, hargaFix };
+}
+
 
         function updateTotalPenjualan(amount) {
             totalPenjualan += amount;
