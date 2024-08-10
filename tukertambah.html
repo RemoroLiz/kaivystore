@@ -123,7 +123,8 @@
         function calculatePrice(kode, berat) {
     let harga = hargaEmas[kode];
     let hasilAwal = harga * berat;
-    let hasilBulat = Math.round(hasilAwal / 1000) * 1000;
+    let hasilBulat = hasilAwal;
+
     let hargaFix;
 
     if (kode === "38 Juene" || kode === "54 VC") {
@@ -137,7 +138,7 @@
         let tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
         hargaFix = hasilBulat + tambahan10Persen;
     } else {
-        hargaFix = hasilBulat;
+        hargaFix = Math.round(hasilAwal / 1000) * 1000;
     }
 
     return { hasilAwal, hasilBulat, hargaFix };
