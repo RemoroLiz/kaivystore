@@ -124,8 +124,8 @@
     let harga = hargaEmas[kode];
     let hasilAwal = harga * berat;
     let hasilBulat = hasilAwal;
-
-    let hargaFix;
+    let tambahan10Persen = 0;
+    let hargaFix = hasilBulat; // Default hargaFix untuk kode selain "Juene" dan "VC"
 
     if (kode === "38 Juene" || kode === "54 VC") {
         let remainder = hasilAwal % 1000;
@@ -135,20 +135,64 @@
             hasilBulat = hasilAwal - remainder + 1000;
         }
 
-        let tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
+        tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
         hargaFix = hasilBulat + tambahan10Persen;
     } else {
         hargaFix = Math.round(hasilAwal / 1000) * 1000;
     }
 
-    return { hasilAwal, hasilBulat, hargaFix };
+    return { hasilAwal, hasilBulat, tambahan10Persen, hargaFix };
 }
 
+function updateTotalPenjualan(amount) {
+    totalPenjualan += amount;
+    $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
+}
 
-        function updateTotalPenjualan(amount) {
-            totalPenjualan += amount;
-            $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
-        }
+$(document).on('click', '.hitungBtn', function () {
+    let form = $(this).closest('form');
+    let kode = form.find('.kodeEmas').val();
+    let berat = parseFloat(form.find('.beratEmas').val());
+    let harga = hargaEmas[kode];
+
+    if (kode && berat) {
+        let { hasilAwal, hasilBulat, tambahan10Persen, hargaFix } = calculatePrice(kode, berat);
+        let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan10Persen, hargaFix);
+
+        form.find('.detailCard').remove(); // Remove previous detail
+        form.append(`<div class="detailCard">${detail}</div>`);
+
+        let previousHasilBulat = form.data('hasilBulat') || 0;
+        updateTotalPenjualan(hargaFix - previousHasilBulat);
+        form.data('hasilBulat', hargaFix); // Store the new hargaFix
+    }
+});
+
+$(document).on('click', '.clearBtn', function () {
+    $('#detailPenjualan').empty();
+    totalPenjualan = 0;
+    updateTotalPenjualan(0);
+    $('#formEmas').data('hasilBulat', 0); // Reset form data
+    $('.additionalForm').remove(); // Remove all additional forms
+});
+
+$(document).on('click', '.hapusBarangBtn', function () {
+    let form = $(this).closest('form');
+    let hasilBulat = form.data('hasilBulat') || 0;
+    updateTotalPenjualan(-hasilBulat);
+    form.remove();
+});
+
+$(document).on('click', '.tambahBarangBtn', function () {
+    let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
+    formClone.find('input').val(''); // Clear input fields
+    formClone.find('select').prop('selectedIndex', 0); // Reset select fields
+    formClone.find('.detailCard').remove();
+    formClone.find('.tambahBarangBtn').remove(); // Remove button from cloned form
+    formClone.append('<button type="button" class="btn btn-danger hapusBarangBtn">Hapus Barang</button>'); // Add Hapus button
+    $('#formContainer').append(formClone);
+});
+
 
         function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan10Persen, hargaFix) {
             let detail = `
