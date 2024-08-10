@@ -123,13 +123,13 @@
         function calculatePrice(kode, berat) {
     let harga = hargaEmas[kode];
     let hasilAwal = harga * berat;
-    let hasilBulat = hasilAwal;
+    let hasilBulat = Math.round(hasilAwal / 1000) * 1000;
     let tambahan10Persen = 0;
-    let hargaFix = hasilBulat; // Default hargaFix untuk kode selain "Juene" dan "VC"
+    let hargaFix = hasilBulat;
 
     if (kode === "38 Juene" || kode === "54 VC") {
         let remainder = hasilAwal % 1000;
-        if (remainder >= 001 && remainder <= 499) {
+        if (remainder >= 1 && remainder <= 499) {
             hasilBulat = hasilAwal - remainder + 500;
         } else if (remainder >= 501 && remainder <= 999) {
             hasilBulat = hasilAwal - remainder + 1000;
@@ -137,8 +137,6 @@
 
         tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
         hargaFix = hasilBulat + tambahan10Persen;
-    } else {
-        hargaFix = Math.round(hasilAwal / 1000) * 1000;
     }
 
     return { hasilAwal, hasilBulat, tambahan10Persen, hargaFix };
@@ -168,12 +166,14 @@ $(document).on('click', '.hitungBtn', function () {
     }
 });
 
-$(document).on('click', '.clearBtn', function () {
-    $('#detailPenjualan').empty();
-    totalPenjualan = 0;
-    updateTotalPenjualan(0);
-    $('#formEmas').data('hasilBulat', 0); // Reset form data
-    $('.additionalForm').remove(); // Remove all additional forms
+$(document).on('click', '.tambahBarangBtn', function () {
+    let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
+    formClone.find('input').val(''); // Clear input fields
+    formClone.find('select').prop('selectedIndex', 0); // Reset select fields
+    formClone.find('.detailCard').remove();
+    formClone.find('.tambahBarangBtn').remove(); // Remove button from cloned form
+    formClone.append('<button type="button" class="btn btn-danger hapusBarangBtn">Hapus Barang</button>'); // Add Hapus button
+    $('#formContainer').append(formClone);
 });
 
 $(document).on('click', '.hapusBarangBtn', function () {
@@ -183,14 +183,12 @@ $(document).on('click', '.hapusBarangBtn', function () {
     form.remove();
 });
 
-$(document).on('click', '.tambahBarangBtn', function () {
-    let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
-    formClone.find('input').val(''); // Clear input fields
-    formClone.find('select').prop('selectedIndex', 0); // Reset select fields
-    formClone.find('.detailCard').remove();
-    formClone.find('.tambahBarangBtn').remove(); // Remove button from cloned form
-    formClone.append('<button type="button" class="btn btn-danger hapusBarangBtn">Hapus Barang</button>'); // Add Hapus button
-    $('#formContainer').append(formClone);
+$(document).on('click', '.clearBtn', function () {
+    $('#detailPenjualan').empty();
+    totalPenjualan = 0;
+    updateTotalPenjualan(0);
+    $('#formEmas').data('hasilBulat', 0); // Reset form data
+    $('.additionalForm').remove(); // Remove all additional forms
 });
 
 
