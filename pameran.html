@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,22 +54,13 @@
                     <div class="col-sm-10">
                         <select class="form-select kodeEmas" required>
                             <option value="" selected>Pilih Kode</option>
-                            <option value="Member"> Member | 20000</option>
-                            
-                            <option value="38 Juene">38 Juene 7K | 480000</option>
-                            <option value="44 Kuning">44 Kuning 8K | 555000</option>
-                            <option value="46 Putih">46 Putih 8K | 580000</option>
-                            <option value="46.5 Putih">46.5 Putih 8K | 585000</option>
-                            <option value="48 Kuning">48 Kuning 9K | 605000</option>
-                            <option value="49 Putih">49 Putih 9K | 620000</option>
-                            <option value="54 VC">54 VC 9K | 671500</option>
-                            <option value="77 16K">16K kuning | 957500 </option>
-                            <option value="85 17K">17K putih | 1057000 </option>
-                            <option value="78-79 16K BG/Amero">78-79 16K BG/Amero | 982000</option>
-                            <option value="89 17K LPM/Amero">89 17K LPM/Amero | 1094000</option>
-                            <option value="Italy">Italy | 1267000</option>
-                            
-                           
+                            <option value="38 Juene">38 Juene / 480000</option>
+                            <option value="44 Kuning">44 Kuning / 555000</option>
+                            <option value="46 Putih">46 Putih / 580000</option>
+                            <option value="48 Kuning">48 Kuning / 605000</option>
+                            <option value="49 Putih">49 Putih / 620000</option>
+                            <option value="75 16K">75 16K / 937500</option>
+                            <option value="85 17K">85 17K / 1057000</option>
                         </select>
                     </div>
                 </div>
@@ -96,167 +86,58 @@
         <div id="detailPenjualan" class="mt-5"></div>
         <div id="totalPenjualan" class="mt-3"></div>
     </div>
-    <div class="container mt-5">
-    <h2>Form Penjualan Emas</h2>
-    <div id="formContainer">
-        <form id="formEmas" class="penjualan-form">
-            <!-- Existing input fields -->
-            
-            <!-- Input Total Terima Barang -->
-            <div class="row mb-3">
-                <label for="totalTerimaBarang" class="col-sm-2 col-form-label">Total Terima Barang</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="totalTerimaBarang">
-                    <button type="button" class="btn btn-primary mt-2" id="inputTerimaBtn">Input Total Terima Barang</button>
-                </div>
-            </div>
 
-            <!-- Input Total Bayar -->
-            <div class="row mb-3">
-                <label for="totalBayar" class="col-sm-2 col-form-label">Total Bayar</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="totalBayar">
-                    <button type="button" class="btn btn-primary mt-2" id="inputBayarBtn">Input Total Bayar</button>
-                </div>
-            </div>
-            
-            <button type="button" class="btn btn-primary hitungBtn">Hitung</button>
-            <button type="reset" class="btn btn-danger clearBtn">Clear Data</button>
-        </form>
-    </div>
-
-    
-    <div id="detailPenjualan" class="mt-5"></div>
-    <div id="totalPenjualan" class="mt-3"></div>
-    <div id="keterangan" class="mt-3"></div> <!-- Untuk menampilkan keterangan tambah/kembali uang -->
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         const hargaEmas = {
-            "Member": 20000,
-            "35.5 B": 455000,
-            "36 XB": 455000,
             "38 Juene": 480000,
             "44 Kuning": 555000,
             "46 Putih": 580000,
-            "46.5 Putih": 585000,
             "48 Kuning": 605000,
             "49 Putih": 620000,
-            "54 VC": 671500,
-            "77 16K": 957500,
-            "85 17K": 1057000,
-            "89 17K LPM/Amero": 1268000,
-            
+            "75 16K": 937500,
+            "85 17K": 1057000
         };
 
         let totalPenjualan = 0;
-        
+
         function calculatePrice(kode, berat) {
-    let harga = hargaEmas[kode];
-    let hasilAwal = harga * berat;
-    let hasilBulat;
+            let harga = hargaEmas[kode];
+            let hasilAwal = harga * berat;
+            let hasilBulat;
 
-    // Pembulatan ke 500 atau 1000
-    let remainder = hasilAwal % 1000;
-    if (remainder >= 1 && remainder <= 499) {
-        hasilBulat = hasilAwal - remainder + 500;
-    } else if (remainder >= 501 && remainder <= 999) {
-        hasilBulat = hasilAwal - remainder + 1000;
-    } else {
-        hasilBulat = hasilAwal;
-    }
-
-    let tambahan10Persen = 0;
-    let hargaFix = hasilBulat;
-
-    // Pembulatan khusus untuk kode "Juene" dan "VC"
-    if (kode === "38 Juene" || kode === "54 VC") {
-        tambahan10Persen = Math.ceil(hasilBulat * 0.1 / 500) * 500;
-        hargaFix = hasilBulat + tambahan10Persen;
-    }
-
-    return { hasilAwal, hasilBulat, tambahan10Persen, hargaFix };
-}
-
-function updateTotalPenjualan(amount) {
-    totalPenjualan += amount;
-    $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
-}
-
-$(document).on('click', '.hitungBtn', function () {
-    let form = $(this).closest('form');
-    let kode = form.find('.kodeEmas').val();
-    let berat = parseFloat(form.find('.beratEmas').val());
-    let harga = hargaEmas[kode];
-
-    if (kode && berat) {
-        let { hasilAwal, hasilBulat, tambahan10Persen, hargaFix } = calculatePrice(kode, berat);
-        let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan10Persen, hargaFix);
-
-        form.find('.detailCard').remove(); // Remove previous detail
-        form.append(`<div class="detailCard">${detail}</div>`);
-
-        let previousHasilBulat = form.data('hasilBulat') || 0;
-        updateTotalPenjualan(hargaFix - previousHasilBulat);
-        form.data('hasilBulat', hargaFix); // Store the new hargaFix
-    }
-});
-
-$(document).on('click', '.tambahBarangBtn', function () {
-    let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
-    formClone.find('input').val(''); // Clear input fields
-    formClone.find('select').prop('selectedIndex', 0); // Reset select fields
-    formClone.find('.detailCard').remove();
-    formClone.find('.tambahBarangBtn').remove(); // Remove button from cloned form
-    formClone.append('<button type="button" class="btn btn-danger hapusBarangBtn">Hapus Barang</button>'); // Add Hapus button
-    $('#formContainer').append(formClone);
-});
-
-$(document).on('click', '.hapusBarangBtn', function () {
-    let form = $(this).closest('form');
-    let hasilBulat = form.data('hasilBulat') || 0;
-    updateTotalPenjualan(-hasilBulat);
-    form.remove();
-});
-
-$(document).on('click', '.clearBtn', function () {
-    $('#detailPenjualan').empty();
-    totalPenjualan = 0;
-    updateTotalPenjualan(0);
-    $('#formEmas').data('hasilBulat', 0); // Reset form data
-    $('.additionalForm').remove(); // Remove all additional forms
-});
-
-
-        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan10Persen, hargaFix) {
-            let detail = `
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Kode Barang: ${kode}</h5>
-                        <p class="card-text">Berat: ${berat} gram</p>
-                        <p class="card-text">Harga: Rp. ${harga.toLocaleString()}</p>
-                        <p class="card-text hasilAwalText">Hasil Awal: Rp. ${hasilAwal.toLocaleString()} <button type="button" class="btn btn-link btn-sm hideAwalBtn">Sembunyikan</button></p>`;
-
-            if (kode === "38 Juene" || kode === "54 VC") {
-                detail += `
-                        <p class="card-text">Harga Sebelum Dibulatkan: Rp. ${hasilAwal.toLocaleString()}</p>
-                        <p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>
-                        <p class="card-text">Tambahan 10%: Rp. ${tambahan10Persen.toLocaleString()}</p>
-                        <p class="card-text">Harga Fix: Rp. ${hargaFix.toLocaleString()}</p>`;
+            // Pembulatan ke 500 atau 1000
+            let remainder = hasilAwal % 1000;
+            if (remainder >= 1 && remainder <= 499) {
+                hasilBulat = hasilAwal - remainder + 500;
+            } else if (remainder >= 501 && remainder <= 999) {
+                hasilBulat = hasilAwal - remainder + 1000;
             } else {
-                detail += `<p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>`;
+                hasilBulat = hasilAwal;
             }
 
-            detail += `</div></div>`;
-            return detail;
+            let hargaFix = hasilBulat;
+
+            // Tambahan 5% untuk kode 38 hingga 49
+            if (["38 Juene", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+                hargaFix += Math.ceil(hasilBulat * 0.05 / 500) * 500;
+            }
+
+            // Kalkulasi khusus untuk kode 85 17K
+            if (kode === "85 17K") {
+                let hargaPerGram = hasilBulat;
+                let hargaPotonganAwal = 15000 * berat;
+                hargaFix = hargaPerGram + hargaPotonganAwal;
+            }
+
+            return { hasilAwal, hasilBulat, hargaFix };
         }
 
-        $(document).on('change', '.kodeEmas', function () {
-            let kode = $(this).val();
-            let harga = hargaEmas[kode] || '';
-            $(this).closest('form').find('.hargaEmas').val(harga ? 'Rp. ' + harga.toLocaleString() : '');
-        });
+        function updateTotalPenjualan(amount) {
+            totalPenjualan += amount;
+            $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
+        }
 
         $(document).on('click', '.hitungBtn', function () {
             let form = $(this).closest('form');
@@ -265,12 +146,12 @@ $(document).on('click', '.clearBtn', function () {
             let harga = hargaEmas[kode];
 
             if (kode && berat) {
-                let { hasilAwal, hasilBulat, tambahan10Persen, hargaFix } = calculatePrice(kode, berat);
-                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan10Persen, hargaFix);
+                let { hasilAwal, hasilBulat, hargaFix } = calculatePrice(kode, berat);
+                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, hargaFix);
 
                 form.find('.detailCard').remove(); // Remove previous detail
                 form.append(`<div class="detailCard">${detail}</div>`);
-                
+
                 let previousHasilBulat = form.data('hasilBulat') || 0;
                 updateTotalPenjualan(hargaFix - previousHasilBulat);
                 form.data('hasilBulat', hargaFix); // Store the new hargaFix
@@ -298,44 +179,29 @@ $(document).on('click', '.clearBtn', function () {
             $('#detailPenjualan').empty();
             totalPenjualan = 0;
             updateTotalPenjualan(0);
+            $('#formEmas').data('hasilBulat', 0); // Reset form data
+            $('.additionalForm').remove(); // Remove all additional forms
         });
 
-        $(document).on('click', '.hideAwalBtn', function () {
-            $(this).closest('p').toggleClass('d-none');
-            let text = $(this).text() === 'Sembunyikan' ? 'Tampilkan' : 'Sembunyikan';
-            $(this).text(text);
+        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, hargaFix) {
+            return `
+                <h4>Detail Penjualan</h4>
+                <p>Kode: ${kode}</p>
+                <p>Harga/Gram: Rp. ${harga.toLocaleString()}</p>
+                <p>Berat: ${berat} gram</p>
+                <p>Total Harga Awal: Rp. ${hasilAwal.toLocaleString()}</p>
+                <p>Total Harga Bulat: Rp. ${hasilBulat.toLocaleString()}</p>
+                <h5>Total Harga Setelah Pembulatan:
+                Rp. ${hargaFix.toLocaleString()}</h5>
+            `;
+        }
+
+        // Update hargaEmas field on kode change
+        $(document).on('change', '.kodeEmas', function () {
+            let kode = $(this).val();
+            let harga = hargaEmas[kode] || 0;
+            $(this).closest('form').find('.hargaEmas').val(harga.toLocaleString());
         });
-
-        
-
-$(document).on('click', '#inputTerimaBtn', function () {
-    let totalTerimaBarang = parseFloat($('#totalTerimaBarang').val());
-    let selisih = totalPenjualan - totalTerimaBarang;
-    let keterangan = selisih < 0 ? "Kembali Uang" : "Tambah Uang";
-    
-    $('#keterangan').html(`<h4>${keterangan}</h4>`);
-    $('#keterangan').data('selisih', selisih);
-});
-
-$(document).on('click', '#inputBayarBtn', function () {
-    let totalBayar = parseFloat($('#totalBayar').val());
-    let selisih = $('#keterangan').data('selisih');
-    let result;
-    
-    if (typeof selisih !== 'undefined') {
-        // Jika total terima barang telah diinputkan
-        result = totalBayar - Math.abs(selisih);
-    } else {
-        // Jika total terima barang belum diinputkan
-        result = totalBayar - totalPenjualan;
-    }
-    
-    let detailBayar = result < 0 ? "Kurang Bayar" : "Kembali Uang";
-    
-    $('#keterangan').append(`<h4>${detailBayar}: Rp. ${Math.abs(result).toLocaleString()}</h4>`);
-    });
-
-
 
     </script>
 </body>
