@@ -54,13 +54,13 @@
                     <div class="col-sm-10">
                         <select class="form-select kodeEmas" required>
                             <option value="" selected>Pilih Kode</option>
-                            <option value="38 Juene">38 Juene / 480000</option>
-                            <option value="44 Kuning">44 Kuning / 555000</option>
-                            <option value="46 Putih">46 Putih / 580000</option>
-                            <option value="48 Kuning">48 Kuning / 605000</option>
-                            <option value="49 Putih">49 Putih / 620000</option>
-                            <option value="75 16K">75 16K / 937500</option>
-                            <option value="85 17K">85 17K / 1057000</option>
+                            <option value="38 Juene">38 Juene 7K | 480000</option>
+                            <option value="44 Kuning">44 Kuning 8K | 555000</option>
+                            <option value="46 Putih">46 Putih 8K | 580000</option>
+                            <option value="48 Kuning">48 Kuning 9K | 605000</option>
+                            <option value="49 Putih">49 Putih 9K | 620000</option>
+                            <option value="75 16K">75 16K | 937500</option>
+                            <option value="85 17K">85 17K | 1057000</option>
                         </select>
                     </div>
                 </div>
@@ -105,38 +105,52 @@
         function calculatePrice(kode, berat) {
             let harga = hargaEmas[kode];
             let hasilAwal = harga * berat;
-            let hasilBulat;
-
-            // Pembulatan ke 500 atau 1000
-            let remainder = hasilAwal % 1000;
-            if (remainder >= 1 && remainder <= 499) {
-                hasilBulat = hasilAwal - remainder + 500;
-            } else if (remainder >= 501 && remainder <= 999) {
-                hasilBulat = hasilAwal - remainder + 1000;
-            } else {
-                hasilBulat = hasilAwal;
-            }
-
+            let hasilBulat = Math.round(hasilAwal / 1000) * 1000; // Pembulatan ke 1000 terdekat
+            let tambahan5Persen = 0;
             let hargaFix = hasilBulat;
 
-            // Tambahan 5% untuk kode 38 hingga 49
+            // Pembulatan dan penambahan 5% untuk kode 38 - 49
             if (["38 Juene", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
-                hargaFix += Math.ceil(hasilBulat * 0.05 / 500) * 500;
+                tambahan5Persen = hasilBulat * 0.05;
+                hargaFix = hasilBulat + tambahan5Persen;
+            } 
+            // Rumus khusus untuk kode 85 17K
+            else if (kode === "85 17K") {
+                let hargaPerGram = hasilBulat / berat;
+                let potonganAwal = 15000 * berat;
+                hargaFix = hargaPerGram + potonganAwal;
             }
 
-            // Kalkulasi khusus untuk kode 85 17K
-            if (kode === "85 17K") {
-                let hargaPerGram = hasilBulat;
-                let hargaPotonganAwal = 15000 * berat;
-                hargaFix = hargaPerGram + hargaPotonganAwal;
-            }
-
-            return { hasilAwal, hasilBulat, hargaFix };
+            return { hasilAwal, hasilBulat, tambahan5Persen, hargaFix };
         }
 
         function updateTotalPenjualan(amount) {
             totalPenjualan += amount;
             $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
+        }
+
+        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, hargaFix) {
+            let detail = `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Kode Barang: ${kode}</h5>
+                        <p class="card-text">Berat: ${berat} gram</p>
+                        <p class="card-text">Harga: Rp. ${harga.toLocaleString()}</p>
+                        <p class="card-text">Hasil Awal: Rp. ${hasilAwal.toLocaleString()}</p>
+                        <p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>
+            `;
+
+            if (tambahan5Persen > 0) {
+                detail += `<p class="card-text">Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString()}</p>`;
+            }
+
+            detail += `
+                        <p class="card-text">Harga Fix: Rp. ${hargaFix.toLocaleString()}</p>
+                    </div>
+                </div>
+            `;
+
+            return detail;
         }
 
         $(document).on('click', '.hitungBtn', function () {
@@ -146,8 +160,8 @@
             let harga = hargaEmas[kode];
 
             if (kode && berat) {
-                let { hasilAwal, hasilBulat, hargaFix } = calculatePrice(kode, berat);
-                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, hargaFix);
+                let { hasilAwal, hasilBulat, tambahan5Persen, hargaFix } = calculatePrice(kode, berat);
+                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, hargaFix);
 
                 form.find('.detailCard').remove(); // Remove previous detail
                 form.append(`<div class="detailCard">${detail}</div>`);
@@ -175,28 +189,6 @@
             form.remove();
         });
 
-        $(document).on('click', '.clearBtn', function () {
-            $('#detailPenjualan').empty();
-            totalPenjualan = 0;
-            updateTotalPenjualan(0);
-            $('#formEmas').data('hasilBulat', 0); // Reset form data
-            $('.additionalForm').remove(); // Remove all additional forms
-        });
-
-        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, hargaFix) {
-            return `
-                <h4>Detail Penjualan</h4>
-                <p>Kode: ${kode}</p>
-                <p>Harga/Gram: Rp. ${harga.toLocaleString()}</p>
-                <p>Berat: ${berat} gram</p>
-                <p>Total Harga Awal: Rp. ${hasilAwal.toLocaleString()}</p>
-                <p>Total Harga Bulat: Rp. ${hasilBulat.toLocaleString()}</p>
-                <h5>Total Harga Setelah Pembulatan:
-                Rp. ${hargaFix.toLocaleString()}</h5>
-            `;
-        }
-
-        // Update hargaEmas field on kode change
         $(document).on('change', '.kodeEmas', function () {
             let kode = $(this).val();
             let harga = hargaEmas[kode] || 0;
