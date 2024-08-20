@@ -108,6 +108,7 @@
             let hasilBulat = Math.round(hasilAwal / 1000) * 1000; // Pembulatan ke 1000 terdekat
             let tambahan5Persen = 0;
             let hargaFix = hasilBulat;
+            let potonganAwal = 0;
 
             // Pembulatan dan penambahan 5% untuk kode 38 - 49
             if (["38 Juene", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
@@ -116,12 +117,11 @@
             } 
             // Rumus khusus untuk kode 85 17K
             else if (kode === "85 17K") {
-                
                 potonganAwal = 15000 * berat;
                 hargaFix = hasilBulat + potonganAwal;
             }
 
-            return { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal , hargaFix };
+            return { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix };
         }
 
         function updateTotalPenjualan(amount) {
@@ -129,7 +129,7 @@
             $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
         }
 
-        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, hargaFix) {
+        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix) {
             let detail = `
                 <div class="card mt-3">
                     <div class="card-body">
@@ -143,7 +143,7 @@
             if (tambahan5Persen > 0) {
                 detail += `<p class="card-text">Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString()}</p>`;
             }
-            else if (potonganAwal > 0) {
+            if (potonganAwal > 0) {
                 detail += `<p class="card-text">Potongan Awal: Rp. ${potonganAwal.toLocaleString()}</p>`;
             }
 
@@ -163,8 +163,8 @@
             let harga = hargaEmas[kode];
 
             if (kode && berat) {
-                let { hasilAwal, hasilBulat, tambahan5Persen, hargaFix } = calculatePrice(kode, berat);
-                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, hargaFix);
+                let { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix);
 
                 form.find('.detailCard').remove(); // Remove previous detail
                 form.append(`<div class="detailCard">${detail}</div>`);
