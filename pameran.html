@@ -116,12 +116,12 @@
             } 
             // Rumus khusus untuk kode 85 17K
             else if (kode === "85 17K") {
-                let hargaPerGram = hasilBulat / berat;
-                let potonganAwal = 15000 * berat;
-                hargaFix = hargaPerGram + potonganAwal;
+                
+                potonganAwal = 15000 * berat;
+                hargaFix = hasilBulat + potonganAwal;
             }
 
-            return { hasilAwal, hasilBulat, tambahan5Persen, hargaFix };
+            return { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal hargaFix };
         }
 
         function updateTotalPenjualan(amount) {
@@ -142,6 +142,9 @@
 
             if (tambahan5Persen > 0) {
                 detail += `<p class="card-text">Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString()}</p>`;
+            }
+            else if (potonganAwal > 0) {
+                detail += `<p class="card-text">Potongan Awal: Rp. ${potonganAwal.toLocaleString()}</p>`;
             }
 
             detail += `
