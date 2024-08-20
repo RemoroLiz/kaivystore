@@ -105,7 +105,16 @@
         function calculatePrice(kode, berat) {
             let harga = hargaEmas[kode];
             let hasilAwal = harga * berat;
-            let hasilBulat = Math.round(hasilAwal / 1000) * 1000; // Pembulatan ke 1000 terdekat
+                // Pembulatan ke 500 atau 1000
+    let remainder = hasilAwal % 1000;
+    if (remainder >= 1 && remainder <= 499) {
+        hasilBulat = hasilAwal - remainder + 500;
+    } else if (remainder >= 501 && remainder <= 999) {
+        hasilBulat = hasilAwal - remainder + 1000;
+    } else {
+        hasilBulat = hasilAwal;
+    }
+          //  let hasilBulat = Math.round(hasilAwal / 1000) * 1000; // Pembulatan ke 1000 terdekat
             let tambahan5Persen = 0;
             let hargaFix = hasilBulat;
             let potonganAwal = 0;
