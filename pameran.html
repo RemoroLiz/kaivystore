@@ -437,18 +437,12 @@
         $(document).on('click', '.clearBtn', function () {
             $(this).closest('form').find('.hargaEmas').val('');
         });
-    </script>
-</body>
 
-</html>
-
-       $(document).on('change', '.kodeEmas', function () {
-    let kode = $(this).val();
-    let harga = hargaEmas[kode] || 0;
-    let formattedHarga = harga ? `Rp. ${harga.toLocaleString()}` : '';
-    $(this).closest('form').find('.hargaEmas').val(formattedHarga);
-});
-
+ $(document).on('change', '.kodeEmas', function () {
+            let kode = $(this).val();
+            let harga = hargaEmas[kode] || 0;
+            $(this).closest('form').find('.hargaEmas').val(harga.toLocaleString());
+        });
     </script>
 </body>
 
