@@ -165,7 +165,7 @@
         hargaFix = hasilBulat + tambahan5Persen;
     } 
     // Rumus khusus untuk kode 81-89 17K dan lainnya
-    else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
+    else(["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
         potonganAwal = 15000 * berat;
         hargaFix = hasilBulat + potonganAwal;
     }
