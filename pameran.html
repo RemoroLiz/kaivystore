@@ -135,7 +135,27 @@
     let hargaFix = hasilBulat;
     let potonganAwal = 0;
 
-    // Pembulatan dan penambahan 5% untuk kode 38 - 49
+    function calculatePrice(kode, berat) {
+    let harga = hargaEmas[kode];
+    let hasilAwal = harga * berat;
+
+    // Pembulatan hasil awal
+    let remainder = hasilAwal % 1000;
+    let hasilBulat;
+    if (remainder >= 1 && remainder <= 499) {
+        hasilBulat = hasilAwal - remainder + 500;
+    } else if (remainder >= 501 && remainder <= 999) {
+        hasilBulat = hasilAwal - remainder + 1000;
+    } else {
+        hasilBulat = hasilAwal;
+    }
+
+    let tambahan5Persen = 0;
+    let tambahan10Persen = 0;
+    let potonganAwal = 0;
+    let hargaFix = hasilBulat;
+
+    // Pembulatan dan penambahan 5% untuk kode tertentu
     if (["44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
         tambahan5Persen = hasilBulat * 0.05;
         
@@ -150,27 +170,28 @@
         hargaFix = hasilBulat + tambahan5Persen;
     } 
     
-    //Rumus khusus untuk tambahan 10%    
-    else if (["38 Juene", "46.5 8K", "54 VC ILY""].includes(kode)) {
-        tambahan5Persen = hasilBulat * 0.05;
+    // Pembulatan dan penambahan 10% untuk kode tertentu
+    else if (["38 Juene", "46.5 8K", "54 VC ILY"].includes(kode)) {
+        tambahan10Persen = hasilBulat * 0.10;
         
-        // Pembulatan tambahan 5%
-        let remainderTambahan = tambahan5Persen % 1000;
-        if (remainderTambahan >= 1 && remainderTambahan <= 499) {
-            tambahan5Persen = tambahan5Persen - remainderTambahan + 500;
-        } else if (remainderTambahan >= 501 && remainderTambahan <= 999) {
-            tambahan5Persen = tambahan5Persen - remainderTambahan + 1000;
+        // Pembulatan tambahan 10%
+        let remainderTambahan10 = tambahan10Persen % 1000;
+        if (remainderTambahan10 >= 1 && remainderTambahan10 <= 499) {
+            tambahan10Persen = tambahan10Persen - remainderTambahan10 + 500;
+        } else if (remainderTambahan10 >= 501 && remainderTambahan10 <= 999) {
+            tambahan10Persen = tambahan10Persen - remainderTambahan10 + 1000;
         }
 
-        hargaFix = hasilBulat + tambahan5Persen;
+        hargaFix = hasilBulat + tambahan10Persen;
     } 
+    
     // Rumus khusus untuk kode 81-89 17K dan lainnya
-    else(["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
+    else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
         potonganAwal = 15000 * berat;
         hargaFix = hasilBulat + potonganAwal;
     }
 
-    return { hasilAwal, hasilBulat, tambahan5Persen,tambahan10Persen, potonganAwal, hargaFix };
+    return { hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix };
 }
 
 
