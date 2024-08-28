@@ -59,8 +59,15 @@
                             <option value="46 Putih">46 Putih 8K | 580000</option>
                             <option value="48 Kuning">48 Kuning 9K | 605000</option>
                             <option value="49 Putih">49 Putih 9K | 620000</option>
-                            <option value="75 16K">75 16K | 956000</option>
-                            <option value="81-89 17K">81-89 17K | 1055000</option>
+                            <option value="75 16K">75 16K | 957500</option>
+                            <option value="81-89 17K">81-89 17K | 1057000</option>
+                            <option value="" selected>Batas</option>
+                            <option value="*46.5 8K">46.5 8K BG | 585000</option>
+                            <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
+                            <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
+                            <option value="*17K coll">17 17K BG, Amero, Hala | 1094000</option>
+                            <option value="*Italy">Italy | 1267000</option>
+                            <option value="*SDW">SDW | 1144000</option>
                         </select>
                     </div>
                 </div>
@@ -91,13 +98,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         const hargaEmas = {
-            "38 Juene": 480000,
-            "44 Kuning": 555000,
-            "46 Putih": 580000,
-            "48 Kuning": 605000,
-            "49 Putih": 620000,
-            "75 16K": 956000,
-            "81-89 17K": 1055000
+            "38 Juene"    : 480000,
+            "44 Kuning"   : 555000,
+            "46 Putih"    : 580000,
+            "48 Kuning"   : 605000,
+            "49 Putih"    : 620000,
+            "75 16K"      : 957500,
+            "81-89 17K"   : 1057000,
+            "46.5 8K"     : 585000,
+            "54 VC ILY"   : 671500,
+            "16K coll"    : 982000,
+            "17K coll"    : 1094000,
+            "Italy"       : 1267000,
+            "SDW"         : 1144000
         };
 
         let totalPenjualan = 0;
@@ -125,7 +138,7 @@
                 hargaFix = hasilBulat + tambahan5Persen;
             } 
             // Rumus khusus untuk kode 85 17K
-            else if (kode === "81-89 17K") {
+            else if (kode === "81-89 17K", "17K coll", "Italy", "SDW") {
                 potonganAwal = 15000 * berat;
                 hargaFix = hasilBulat + potonganAwal;
             }
@@ -200,6 +213,235 @@
             updateTotalPenjualan(-hasilBulat);
             form.remove();
         });
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghitungan Jual Beli Emas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Toko Mas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Form Penjualan Emas</h2>
+        <div id="formContainer">
+            <form id="formEmas" class="penjualan-form">
+                <div class="row mb-3">
+                    <label for="kodeEmas" class="col-sm-2 col-form-label">Kode Emas</label>
+                    <div class="col-sm-10">
+                        <select class="form-select kodeEmas" required>
+                            <option value="" selected>Pilih Kode</option>
+                            <option value="38 Juene">38 Juene 7K | 480000</option>
+                            <option value="44 Kuning">44 Kuning 8K | 555000</option>
+                            <option value="46 Putih">46 Putih 8K | 580000</option>
+                            <option value="48 Kuning">48 Kuning 9K | 605000</option>
+                            <option value="49 Putih">49 Putih 9K | 620000</option>
+                            <option value="75 16K">75 16K | 957500</option>
+                            <option value="81-89 17K">81-89 17K | 1057000</option>
+                            <option value="*46.5 8K">46.5 8K BG | 585000</option>
+                            <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
+                            <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
+                            <option value="*17K coll">17 17K BG, Amero, Hala | 1094000</option>
+                            <option value="*Italy">Italy | 1267000</option>
+                            <option value="*SDW">SDW | 1144000</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="hargaEmas" class="col-sm-2 col-form-label">Harga</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control hargaEmas" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="beratEmas" class="col-sm-2 col-form-label">Berat (gram)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control beratEmas" required min="0" step="0.01">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary hitungBtn">Hitung</button>
+                <button type="reset" class="btn btn-danger clearBtn">Clear Data</button>
+            </form>
+        </div>
+
+        <button type="button" class="btn btn-success mt-3 tambahBarangBtn">Tambah Barang</button>
+        
+        <div id="detailPenjualan" class="mt-5"></div>
+        <div id="totalPenjualan" class="mt-3"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        const hargaEmas = {
+            "38 Juene"    : 480000,
+            "44 Kuning"   : 555000,
+            "46 Putih"    : 580000,
+            "48 Kuning"   : 605000,
+            "49 Putih"    : 620000,
+            "75 16K"      : 957500,
+            "81-89 17K"   : 1057000,
+            "46.5 8K"     : 585000,
+            "54 VC ILY"   : 671500,
+            "16K coll"    : 982000,
+            "17K coll"    : 1094000,
+            "Italy"       : 1267000,
+            "SDW"         : 1144000
+        };
+
+        let totalPenjualan = 0;
+
+      function calculatePrice(kode, berat) {
+    let harga = hargaEmas[kode];
+    let hasilAwal = harga * berat;
+
+    // Pembulatan hasil awal
+    let remainderAwal = hasilAwal % 1000;
+    let hasilBulat;
+    if (remainderAwal >= 1 && remainderAwal <= 499) {
+        hasilBulat = hasilAwal - remainderAwal + 500;
+    } else if (remainderAwal >= 501 && remainderAwal <= 999) {
+        hasilBulat = hasilAwal - remainderAwal + 1000;
+    } else {
+        hasilBulat = hasilAwal;
+    }
+
+    let tambahan5Persen = 0;
+    let hargaFix = hasilBulat;
+    let potonganAwal = 0;
+
+    // Pembulatan dan penambahan 5% untuk kode 38 - 49
+    if (["38 Juene", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+        tambahan5Persen = hasilBulat * 0.05;
+        
+        // Pembulatan tambahan 5%
+        let remainderTambahan = tambahan5Persen % 1000;
+        if (remainderTambahan >= 1 && remainderTambahan <= 499) {
+            tambahan5Persen = tambahan5Persen - remainderTambahan + 500;
+        } else if (remainderTambahan >= 501 && remainderTambahan <= 999) {
+            tambahan5Persen = tambahan5Persen - remainderTambahan + 1000;
+        }
+
+        hargaFix = hasilBulat + tambahan5Persen;
+    } 
+    // Rumus khusus untuk kode 81-89 17K dan lainnya
+    else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
+        potonganAwal = 15000 * berat;
+        hargaFix = hasilBulat + potonganAwal;
+    }
+
+    return { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix };
+}
+
+
+        function updateTotalPenjualan(amount) {
+            totalPenjualan += amount;
+            $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
+        }
+
+        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix) {
+            let detail = `
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Kode Barang: ${kode}</h5>
+                        <p class="card-text">Berat: ${berat} gram</p>
+                        <p class="card-text">Harga: Rp. ${harga.toLocaleString()}</p>
+                        <p class="card-text">Hasil Awal: Rp. ${hasilAwal.toLocaleString()}</p>
+                        <p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>
+            `;
+
+            if (tambahan5Persen > 0) {
+                detail += `<p class="card-text">Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString()}</p>`;
+            }
+            if (potonganAwal > 0) {
+                detail += `<p class="card-text">Potongan Awal: Rp. ${potonganAwal.toLocaleString()}</p>`;
+            }
+
+            detail += `
+                        <p class="card-text">Harga Fix: Rp. ${hargaFix.toLocaleString()}</p>
+                    </div>
+                </div>
+            `;
+
+            return detail;
+        }
+
+        $(document).on('click', '.hitungBtn', function () {
+            let form = $(this).closest('form');
+            let kode = form.find('.kodeEmas').val();
+            let berat = parseFloat(form.find('.beratEmas').val());
+
+            if (!kode || isNaN(berat) || berat <= 0) {
+                alert("Mohon masukkan kode dan berat yang valid.");
+                return;
+            }
+
+            let { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+
+            let detailPenjualan = createDetailPenjualan(kode, berat, hargaEmas[kode], hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix);
+            $('#detailPenjualan').append(detailPenjualan);
+
+            updateTotalPenjualan(hargaFix);
+        });
+
+        $(document).on('change', '.kodeEmas', function () {
+            let harga = hargaEmas[$(this).val()];
+            let form = $(this).closest('form');
+            form.find('.hargaEmas').val(harga ? `Rp. ${harga.toLocaleString()}` : '');
+        });
+
+        $('.tambahBarangBtn').on('click', function () {
+            let newForm = $('#formEmas').clone();
+            newForm.find('input').val('');
+            newForm.find('select').val('');
+            $('#formContainer').append(newForm);
+        });
+
+        $(document).on('click', '.clearBtn', function () {
+            $(this).closest('form').find('.hargaEmas').val('');
+        });
+    </script>
+</body>
+
+</html>
 
         $(document).on('change', '.kodeEmas', function () {
             let kode = $(this).val();
