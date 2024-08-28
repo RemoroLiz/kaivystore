@@ -61,7 +61,6 @@
                             <option value="49 Putih">49 Putih 9K | 620000</option>
                             <option value="75 16K">75 16K | 957500</option>
                             <option value="81-89 17K">81-89 17K | 1057000</option>
-                            <option value="" selected>Batas</option>
                             <option value="*46.5 8K">46.5 8K BG | 585000</option>
                             <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
                             <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
@@ -443,11 +442,12 @@
 
 </html>
 
-        $(document).on('change', '.kodeEmas', function () {
-            let kode = $(this).val();
-            let harga = hargaEmas[kode] || 0;
-            $(this).closest('form').find('.hargaEmas').val(harga.toLocaleString());
-        });
+       $(document).on('change', '.kodeEmas', function () {
+    let kode = $(this).val();
+    let harga = hargaEmas[kode] || 0;
+    let formattedHarga = harga ? `Rp. ${harga.toLocaleString()}` : '';
+    $(this).closest('form').find('.hargaEmas').val(formattedHarga);
+});
 
     </script>
 </body>
