@@ -63,7 +63,7 @@
                             <option value="81-89 17K">81-89 17K | 1057000</option>
                             <option value="" selected>Batas</option>
                             <option value="*46.5 8K">46.5 8K BG | 585000</option>
-                            <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
+                            <option value="54 VC ILY 9K">54 VC ILY 9K | 671500</option>
                             <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
                             <option value="*17K coll">17 17K BG, Amero, Hala | 1094000</option>
                             <option value="*Italy">Italy | 1267000</option>
@@ -131,11 +131,27 @@
     }
 
     let tambahan5Persen = 0;
+    let tambahan10Persen = 0;
     let hargaFix = hasilBulat;
     let potonganAwal = 0;
 
     // Pembulatan dan penambahan 5% untuk kode 38 - 49
-    if (["38 Juene", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+    if (["44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+        tambahan5Persen = hasilBulat * 0.05;
+        
+        // Pembulatan tambahan 5%
+        let remainderTambahan = tambahan5Persen % 1000;
+        if (remainderTambahan >= 1 && remainderTambahan <= 499) {
+            tambahan5Persen = tambahan5Persen - remainderTambahan + 500;
+        } else if (remainderTambahan >= 501 && remainderTambahan <= 999) {
+            tambahan5Persen = tambahan5Persen - remainderTambahan + 1000;
+        }
+
+        hargaFix = hasilBulat + tambahan5Persen;
+    } 
+    
+    //Rumus khusus untuk tambahan 10%    
+    else if (["38 Juene", "46.5 8K", "54 VC ILY""].includes(kode)) {
         tambahan5Persen = hasilBulat * 0.05;
         
         // Pembulatan tambahan 5%
@@ -154,7 +170,7 @@
         hargaFix = hasilBulat + potonganAwal;
     }
 
-    return { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix };
+    return { hasilAwal, hasilBulat, tambahan5Persen,tambahan10Persen, potonganAwal, hargaFix };
 }
 
 
