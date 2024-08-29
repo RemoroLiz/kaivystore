@@ -220,8 +220,8 @@
 
             const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
 
-            updateTotalPenjualan(hargaFix);
             updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
+            updateTotalPenjualan(hargaFix);
         });
 
         $(document).on('click', '.clearBtn', function () {
