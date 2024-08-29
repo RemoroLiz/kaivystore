@@ -61,12 +61,12 @@
                             <option value="49 Putih">49 Putih 9K | 620000</option>
                             <option value="75 16K">75 16K | 957500</option>
                             <option value="81-89 17K">81-89 17K | 1057000</option>
-                            <option value="*46.5 8K">46.5 8K BG | 585000</option>
-                            <option value="54 VC ILY 9K">54 VC ILY 9K | 671500</option>
-                            <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
-                            <option value="*17K coll">17 17K BG, Amero, Hala | 1094000</option>
-                            <option value="*Italy">Italy | 1267000</option>
-                            <option value="*SDW">SDW | 1144000</option>
+                            <option value="46.5 8K">46.5 8K BG | 585000</option>
+                            <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
+                            <option value="16K coll">16 16K BG, Amero, Hala | 982000</option>
+                            <option value="17K coll">17 17K BG, Amero, Hala | 1094000</option>
+                            <option value="Italy">Italy | 1267000</option>
+                            <option value="SDW">SDW | 1144000</option>
                         </select>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
         </div>
 
         <button type="button" class="btn btn-success mt-3 tambahBarangBtn">Tambah Barang</button>
-        
+
         <div id="detailPenjualan" class="mt-5"></div>
         <div id="totalPenjualan" class="mt-3"></div>
     </div>
@@ -171,6 +171,7 @@
             }
 
             return {
+                harga,
                 hasilAwal,
                 hasilBulat,
                 tambahan5Persen,
@@ -185,9 +186,20 @@
             $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
         }
 
-        function updateDetailPenjualan(kode, berat, hargaFix) {
-            const detailHtml = `<h5>Kode: ${kode} | Berat: ${berat} gram | Total Harga: Rp. ${hargaFix.toLocaleString('id-ID')}</h5>`;
-            $('#detailPenjualan').append(detailHtml);
+        function updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
+            const detailHtml = `
+                <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
+                <ul>
+                    <li>Harga Awal: Rp. ${hasilAwal.toLocaleString('id-ID')}</li>
+                    <li>Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString('id-ID')}</li>
+                    <li>Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString('id-ID')}</li>
+                    <li>Tambahan 10%: Rp. ${tambahan10Persen.toLocaleString('id-ID')}</li>
+                    <li>Potongan Awal: Rp. ${potonganAwal.toLocaleString('id-ID')}</li>
+                    <li>Harga Final: Rp. ${hargaFix.toLocaleString('id-ID')}</li>
+                </ul>
+                <hr>
+            `;
+            $('#detailPenjualan').html(detailHtml); // update data instead of appending
         }
 
         function clearTotalPenjualan() {
@@ -206,10 +218,10 @@
                 return;
             }
 
-            const { hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+            const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
 
             updateTotalPenjualan(hargaFix);
-            updateDetailPenjualan(kode, berat, hargaFix);
+            updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
         });
 
         $(document).on('click', '.clearBtn', function () {
@@ -220,6 +232,13 @@
             const formClone = $('#formEmas').clone();
             formClone.find('input, select').val('');
             $('#formContainer').append(formClone);
+        });
+
+        // Auto-fill harga when kode is selected
+        $(document).on('change', '.kodeEmas', function () {
+            const form = $(this).closest('.penjualan-form');
+            const kode = form.find('.kodeEmas').val();
+            form.find('.hargaEmas').val(hargaEmas[kode] ? hargaEmas[kode].toLocaleString('id-ID') : '');
         });
     </script>
 </body>
