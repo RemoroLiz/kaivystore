@@ -61,7 +61,6 @@
                             <option value="49 Putih">49 Putih 9K | 620000</option>
                             <option value="75 16K">75 16K | 957500</option>
                             <option value="81-89 17K">81-89 17K | 1057000</option>
-                            <option value="" selected>Batas</option>
                             <option value="*46.5 8K">46.5 8K BG | 585000</option>
                             <option value="54 VC ILY 9K">54 VC ILY 9K | 671500</option>
                             <option value="*16K coll">16 16K BG, Amero, Hala | 982000</option>
@@ -98,177 +97,130 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         const hargaEmas = {
-            "38 Juene"    : 480000,
-            "44 Kuning"   : 555000,
-            "46 Putih"    : 580000,
-            "48 Kuning"   : 605000,
-            "49 Putih"    : 620000,
-            "75 16K"      : 957500,
-            "81-89 17K"   : 1057000,
-            "46.5 8K"     : 585000,
-            "54 VC ILY"   : 671500,
-            "16K coll"    : 982000,
-            "17K coll"    : 1094000,
-            "Italy"       : 1267000,
-            "SDW"         : 1144000
+            "38 Juene": 480000,
+            "44 Kuning": 555000,
+            "46 Putih": 580000,
+            "48 Kuning": 605000,
+            "49 Putih": 620000,
+            "75 16K": 957500,
+            "81-89 17K": 1057000,
+            "46.5 8K": 585000,
+            "54 VC ILY": 671500,
+            "16K coll": 982000,
+            "17K coll": 1094000,
+            "Italy": 1267000,
+            "SDW": 1144000
         };
 
         let totalPenjualan = 0;
 
-       function calculatePrice(kode, berat) {
-    let harga = hargaEmas[kode];
-    let hasilAwal = harga * berat;
+        function calculatePrice(kode, berat) {
+            let harga = hargaEmas[kode];
+            let hasilAwal = harga * berat;
 
-    // Pembulatan hasil awal
-    let remainderAwal = hasilAwal % 1000;
-    let hasilBulat;
-    if (remainderAwal >= 1 && remainderAwal <= 499) {
-        hasilBulat = hasilAwal - remainderAwal + 500;
-    } else if (remainderAwal >= 501 && remainderAwal <= 999) {
-        hasilBulat = hasilAwal - remainderAwal + 1000;
-    } else {
-        hasilBulat = hasilAwal;
-    }
-
-    let tambahan5Persen = 0;
-    let tambahan10Persen = 0;
-    let hargaFix = hasilBulat;
-    let potonganAwal = 0;
-
-    function calculatePrice(kode, berat) {
-    let harga = hargaEmas[kode];
-    let hasilAwal = harga * berat;
-
-    // Pembulatan hasil awal
-    let remainder = hasilAwal % 1000;
-    let hasilBulat;
-    if (remainder >= 1 && remainder <= 499) {
-        hasilBulat = hasilAwal - remainder + 500;
-    } else if (remainder >= 501 && remainder <= 999) {
-        hasilBulat = hasilAwal - remainder + 1000;
-    } else {
-        hasilBulat = hasilAwal;
-    }
-
-    let tambahan5Persen = 0;
-    let tambahan10Persen = 0;
-    let potonganAwal = 0;
-    let hargaFix = hasilBulat;
-
-    // Pembulatan dan penambahan 5% untuk kode tertentu
-    if (["44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
-        tambahan5Persen = hasilBulat * 0.05;
-        
-        // Pembulatan tambahan 5%
-        let remainderTambahan = tambahan5Persen % 1000;
-        if (remainderTambahan >= 1 && remainderTambahan <= 499) {
-            tambahan5Persen = tambahan5Persen - remainderTambahan + 500;
-        } else if (remainderTambahan >= 501 && remainderTambahan <= 999) {
-            tambahan5Persen = tambahan5Persen - remainderTambahan + 1000;
-        }
-
-        hargaFix = hasilBulat + tambahan5Persen;
-    } 
-    
-    // Pembulatan dan penambahan 10% untuk kode tertentu
-    else if (["38 Juene", "46.5 8K", "54 VC ILY"].includes(kode)) {
-        tambahan10Persen = hasilBulat * 0.10;
-        
-        // Pembulatan tambahan 10%
-        let remainderTambahan10 = tambahan10Persen % 1000;
-        if (remainderTambahan10 >= 1 && remainderTambahan10 <= 499) {
-            tambahan10Persen = tambahan10Persen - remainderTambahan10 + 500;
-        } else if (remainderTambahan10 >= 501 && remainderTambahan10 <= 999) {
-            tambahan10Persen = tambahan10Persen - remainderTambahan10 + 1000;
-        }
-
-        hargaFix = hasilBulat + tambahan10Persen;
-    } 
-    
-    // Rumus khusus untuk kode 81-89 17K dan lainnya
-    else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
-        potonganAwal = 15000 * berat;
-        hargaFix = hasilBulat + potonganAwal;
-    }
-
-    return { hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix };
-}
-
-
-        function updateTotalPenjualan(amount) {
-            totalPenjualan += amount;
-            $('#totalPenjualan').html(`<h4>Total Penjualan: Rp. ${totalPenjualan.toLocaleString()}</h4>`);
-        }
-
-        function createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix) {
-            let detail = `
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Kode Barang: ${kode}</h5>
-                        <p class="card-text">Berat: ${berat} gram</p>
-                        <p class="card-text">Harga: Rp. ${harga.toLocaleString()}</p>
-                        <p class="card-text">Hasil Awal: Rp. ${hasilAwal.toLocaleString()}</p>
-                        <p class="card-text">Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString()}</p>
-            `;
-
-            if (tambahan5Persen > 0) {
-                detail += `<p class="card-text">Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString()}</p>`;
-            }
-            if (potonganAwal > 0) {
-                detail += `<p class="card-text">Potongan Awal: Rp. ${potonganAwal.toLocaleString()}</p>`;
+            // Pembulatan hasil awal
+            let remainder = hasilAwal % 1000;
+            let hasilBulat;
+            if (remainder >= 1 && remainder <= 499) {
+                hasilBulat = hasilAwal - remainder + 500;
+            } else if (remainder >= 501 && remainder <= 999) {
+                hasilBulat = hasilAwal - remainder + 1000;
+            } else {
+                hasilBulat = hasilAwal;
             }
 
-            detail += `
-                        <p class="card-text">Harga Fix: Rp. ${hargaFix.toLocaleString()}</p>
-                    </div>
-                </div>
-            `;
+            let tambahan5Persen = 0;
+            let tambahan10Persen = 0;
+            let potonganAwal = 0;
+            let hargaFix = hasilBulat;
 
-            return detail;
+            // Pembulatan dan penambahan 5% untuk kode tertentu
+            if (["44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+                tambahan5Persen = hasilBulat * 0.05;
+
+                // Pembulatan tambahan 5%
+                let remainderTambahan = tambahan5Persen % 1000;
+                if (remainderTambahan >= 1 && remainderTambahan <= 499) {
+                    tambahan5Persen = tambahan5Persen - remainderTambahan + 500;
+                } else if (remainderTambahan >= 501 && remainderTambahan <= 999) {
+                    tambahan5Persen = tambahan5Persen - remainderTambahan + 1000;
+                }
+
+                hargaFix = hasilBulat + tambahan5Persen;
+            }
+
+            // Pembulatan dan penambahan 10% untuk kode tertentu
+            else if (["38 Juene", "46.5 8K", "54 VC ILY"].includes(kode)) {
+                tambahan10Persen = hasilBulat * 0.10;
+
+                // Pembulatan tambahan 10%
+                let remainderTambahan10 = tambahan10Persen % 1000;
+                if (remainderTambahan10 >= 1 && remainderTambahan10 <= 499) {
+                    tambahan10Persen = tambahan10Persen - remainderTambahan10 + 500;
+                } else if (remainderTambahan10 >= 501 && remainderTambahan10 <= 999) {
+                    tambahan10Persen = tambahan10Persen - remainderTambahan10 + 1000;
+                }
+
+                hargaFix = hasilBulat + tambahan10Persen;
+            }
+
+            // Rumus khusus untuk kode 81-89 17K dan lainnya
+            else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
+                potonganAwal = 15000 * berat;
+                hargaFix = hasilBulat - potonganAwal;
+            }
+
+            return {
+                hasilAwal,
+                hasilBulat,
+                tambahan5Persen,
+                tambahan10Persen,
+                potonganAwal,
+                hargaFix
+            };
+        }
+
+        function updateTotalPenjualan(newTotal) {
+            totalPenjualan += newTotal;
+            $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
+        }
+
+        function updateDetailPenjualan(kode, berat, hargaFix) {
+            const detailHtml = `<h5>Kode: ${kode} | Berat: ${berat} gram | Total Harga: Rp. ${hargaFix.toLocaleString('id-ID')}</h5>`;
+            $('#detailPenjualan').append(detailHtml);
+        }
+
+        function clearTotalPenjualan() {
+            totalPenjualan = 0;
+            $('#detailPenjualan').empty();
+            $('#totalPenjualan').empty();
         }
 
         $(document).on('click', '.hitungBtn', function () {
-            let form = $(this).closest('form');
-            let kode = form.find('.kodeEmas').val();
-            let berat = parseFloat(form.find('.beratEmas').val());
-            let harga = hargaEmas[kode];
+            const form = $(this).closest('.penjualan-form');
+            const kode = form.find('.kodeEmas').val();
+            const berat = parseFloat(form.find('.beratEmas').val());
 
-            if (kode && berat) {
-                let { hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
-                let detail = createDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, potonganAwal, hargaFix);
-
-                form.find('.detailCard').remove(); // Remove previous detail
-                form.append(`<div class="detailCard">${detail}</div>`);
-
-                let previousHasilBulat = form.data('hasilBulat') || 0;
-                updateTotalPenjualan(hargaFix - previousHasilBulat);
-                form.data('hasilBulat', hargaFix); // Store the new hargaFix
+            if (!kode || isNaN(berat) || berat <= 0) {
+                alert("Kode dan berat harus diisi dengan benar.");
+                return;
             }
+
+            const { hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+
+            updateTotalPenjualan(hargaFix);
+            updateDetailPenjualan(kode, berat, hargaFix);
         });
 
-        $(document).on('click', '.tambahBarangBtn', function () {
-            let formClone = $('#formEmas').clone().attr('id', '').removeClass('penjualan-form').addClass('additionalForm');
-            formClone.find('input').val(''); // Clear input fields
-            formClone.find('select').prop('selectedIndex', 0); // Reset select fields
-            formClone.find('.detailCard').remove();
-            formClone.find('.tambahBarangBtn').remove(); // Remove button from cloned form
-            formClone.append('<button type="button" class="btn btn-danger hapusBarangBtn">Hapus Barang</button>'); // Add Hapus button
+        $(document).on('click', '.clearBtn', function () {
+            clearTotalPenjualan();
+        });
+
+        $('.tambahBarangBtn').on('click', function () {
+            const formClone = $('#formEmas').clone();
+            formClone.find('input, select').val('');
             $('#formContainer').append(formClone);
         });
-
-        $(document).on('click', '.hapusBarangBtn', function () {
-            let form = $(this).closest('form');
-            let hasilBulat = form.data('hasilBulat') || 0;
-            updateTotalPenjualan(-hasilBulat);
-            form.remove();
-        });
-
-        $(document).on('change', '.kodeEmas', function () {
-            let kode = $(this).val();
-            let harga = hargaEmas[kode] || 0;
-            $(this).closest('form').find('.hargaEmas').val(harga.toLocaleString());
-        });
-
     </script>
 </body>
 
