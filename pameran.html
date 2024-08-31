@@ -206,29 +206,42 @@
     }
     
     $(document).on('click', '.hitungBtn', function () {
-        const form = $(this).closest('.penjualan-form');
-        const kode = form.find('.kodeEmas').val();
-        const berat = parseFloat(form.find('.beratEmas').val());
-    
-        if (!kode || isNaN(berat) || berat <= 0) {
-            alert("Kode dan berat harus diisi dengan benar.");
-            return;
-        }
-    
-        const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
-    
-        // Update total penjualan dengan harga terbaru saja
-        totalPenjualan += hargaFix;
-    
-        updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
-        updateTotalPenjualan(totalPenjualan);
-    });
-        
+    const form = $(this).closest('.penjualan-form');
 
+    // Cek apakah form ini sudah dihitung sebelumnya
+    if (form.data('calculated')) {
+        alert("Data untuk form ini sudah dihitung.");
+        return;
+    }
 
-        $(document).on('click', '.clearBtn', function () {
-            clearTotalPenjualan();
-        });
+    const kode = form.find('.kodeEmas').val();
+    const berat = parseFloat(form.find('.beratEmas').val());
+
+    if (!kode || isNaN(berat) || berat <= 0) {
+        alert("Kode dan berat harus diisi dengan benar.");
+        return;
+    }
+
+    const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+
+    // Update total penjualan dengan harga terbaru saja
+    totalPenjualan += hargaFix;
+
+    updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
+    updateTotalPenjualan(totalPenjualan);
+
+    // Tandai form ini sebagai sudah dihitung
+    form.data('calculated', true);
+});
+
+$(document).on('click', '.clearBtn', function () {
+    // Reset total penjualan dan hapus detail
+    clearTotalPenjualan();
+
+    // Hapus tanda "calculated" pada semua form
+    $('.penjualan-form').data('calculated', false);
+});
+
 
         $('.tambahBarangBtn').on('click', function () {
             const formClone = $('#formEmas').clone();
