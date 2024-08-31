@@ -59,14 +59,14 @@
                             <option value="46 Putih">46 Putih 8K | 580000</option>
                             <option value="48 Kuning">48 Kuning 9K | 605000</option>
                             <option value="49 Putih">49 Putih 9K | 620000</option>
-                            <option value="75 16K">75 16K | 957500</option>
-                            <option value="81-89 17K">81-89 17K | 1057000</option>
+                            <option value="75 16K">75 16K | 956000</option>
+                            <option value="81-89 17K">81-89 17K | 1055000</option>
                             <option value="46.5 8K">46.5 8K BG | 585000</option>
-                            <option value="54 VC ILY">54 VC ILY 9K | 671500</option>
-                            <option value="16K coll">16 16K BG, Amero, Hala | 982000</option>
-                            <option value="17K coll">17 17K BG, Amero, Hala | 1094000</option>
-                            <option value="Italy">Italy | 1267000</option>
-                            <option value="SDW">SDW | 1144000</option>
+                            <option value="54 VC ILY">54 Voila & ILY 9K | 670500</option>
+                            <option value="16K coll">16 16K BG, Amero, Hala | 980500</option>
+                            <option value="17K coll">17 17K LPM, Amero, Hala | 1092500</option>
+                            <option value="Italy">Italy | 1266000</option>
+                            <option value="SDW">SDW | 1142000</option>
                         </select>
                     </div>
                 </div>
@@ -102,14 +102,14 @@
             "46 Putih": 580000,
             "48 Kuning": 605000,
             "49 Putih": 620000,
-            "75 16K": 957500,
-            "81-89 17K": 1057000,
+            "75 16K": 956000,
+            "81-89 17K": 1055000,
             "46.5 8K": 585000,
-            "54 VC ILY": 671500,
-            "16K coll": 982000,
-            "17K coll": 1094000,
-            "Italy": 1267000,
-            "SDW": 1144000
+            "54 VC ILY": 670500,
+            "16K coll": 980500,
+            "17K coll": 1092500,
+            "Italy": 1266000,
+            "SDW": 1142000
         };
 
         let totalPenjualan = 0;
@@ -186,8 +186,9 @@
             $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
         }
         
-        function updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
-            const detailHtml = `
+            function updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
+        const detailHtml = `
+            <div class="detailPenjualan mt-3">
                 <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
                 <ul>
                     <li>Harga Awal: Rp. ${hasilAwal.toLocaleString('id-ID')}</li>
@@ -198,28 +199,31 @@
                     <li>Harga Final: Rp. ${hargaFix.toLocaleString('id-ID')}</li>
                 </ul>
                 <hr>
-            `;
-            $('#detailPenjualan').append(detailHtml); // Append detail instead of replacing
+            </div>
+        `;
+        form.next('.detailPenjualan').remove(); // Remove previous detail if exists
+        form.after(detailHtml); // Append new detail after the form
+    }
+    
+    $(document).on('click', '.hitungBtn', function () {
+        const form = $(this).closest('.penjualan-form');
+        const kode = form.find('.kodeEmas').val();
+        const berat = parseFloat(form.find('.beratEmas').val());
+    
+        if (!kode || isNaN(berat) || berat <= 0) {
+            alert("Kode dan berat harus diisi dengan benar.");
+            return;
         }
+    
+        const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+    
+        // Update total penjualan dengan harga terbaru saja
+        totalPenjualan += hargaFix;
+    
+        updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
+        updateTotalPenjualan(totalPenjualan);
+    });
         
-        $(document).on('click', '.hitungBtn', function () {
-            const form = $(this).closest('.penjualan-form');
-            const kode = form.find('.kodeEmas').val();
-            const berat = parseFloat(form.find('.beratEmas').val());
-        
-            if (!kode || isNaN(berat) || berat <= 0) {
-                alert("Kode dan berat harus diisi dengan benar.");
-                return;
-            }
-        
-            const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
-        
-            // Update total penjualan dengan harga terbaru saja
-            totalPenjualan += hargaFix;
-        
-            updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
-            updateTotalPenjualan(totalPenjualan);
-        });
 
 
         $(document).on('click', '.clearBtn', function () {
