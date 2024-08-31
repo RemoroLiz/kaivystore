@@ -181,11 +181,11 @@
             };
         }
 
-        function updateTotalPenjualan(newTotal) {
-            totalPenjualan += newTotal;
+       function updateTotalPenjualan(newTotal) {
+            totalPenjualan = newTotal;
             $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
         }
-
+        
         function updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
             const detailHtml = `
                 <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
@@ -199,30 +199,28 @@
                 </ul>
                 <hr>
             `;
-            $('#detailPenjualan').html(detailHtml); // update data instead of appending
+            $('#detailPenjualan').append(detailHtml); // Append detail instead of replacing
         }
-
-        function clearTotalPenjualan() {
-            totalPenjualan = 0;
-            $('#detailPenjualan').empty();
-            $('#totalPenjualan').empty();
-        }
-
+        
         $(document).on('click', '.hitungBtn', function () {
             const form = $(this).closest('.penjualan-form');
             const kode = form.find('.kodeEmas').val();
             const berat = parseFloat(form.find('.beratEmas').val());
-
+        
             if (!kode || isNaN(berat) || berat <= 0) {
                 alert("Kode dan berat harus diisi dengan benar.");
                 return;
             }
-
+        
             const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
-
+        
+            // Update total penjualan dengan harga terbaru saja
+            totalPenjualan += hargaFix;
+        
             updateDetailPenjualan(kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
-            updateTotalPenjualan(hargaFix);
+            updateTotalPenjualan(totalPenjualan);
         });
+
 
         $(document).on('click', '.clearBtn', function () {
             clearTotalPenjualan();
