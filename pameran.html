@@ -166,9 +166,18 @@
 
             // Rumus khusus untuk kode 81-89 17K dan lainnya
             else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
-                potonganAwal = 15000 * berat;
-                hargaFix = hasilBulat - potonganAwal;
+            potonganAwal = 15000 * berat;
+            hargaFix = hasilBulat - potonganAwal;
+        
+            // Pembulatan setelah pengurangan potongan
+            let remainderPotongan = hargaFix % 1000;
+            if (remainderPotongan >= 1 && remainderPotongan <= 499) {
+                hargaFix = hargaFix - remainderPotongan + 500;
+            } else if (remainderPotongan >= 501 && remainderPotongan <= 999) {
+                hargaFix = hargaFix - remainderPotongan + 1000;
             }
+            }
+
 
             return {
                 harga,
