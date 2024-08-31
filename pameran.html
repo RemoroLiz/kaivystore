@@ -205,14 +205,8 @@
         form.after(detailHtml); // Append new detail after the form
     }
     
-    $(document).on('click', '.hitungBtn', function () {
+   $(document).on('click', '.hitungBtn', function () {
     const form = $(this).closest('.penjualan-form');
-
-    // Cek apakah form ini sudah dihitung sebelumnya
-    if (form.data('calculated')) {
-        alert("Data untuk form ini sudah dihitung.");
-        return;
-    }
 
     const kode = form.find('.kodeEmas').val();
     const berat = parseFloat(form.find('.beratEmas').val());
@@ -224,25 +218,30 @@
 
     const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
 
-    // Update total penjualan dengan harga terbaru saja
+    // Jika form sudah pernah dihitung sebelumnya, kurangi totalPenjualan dengan harga sebelumnya
+    const previousHargaFix = form.data('hargaFix');
+    if (previousHargaFix) {
+        totalPenjualan -= previousHargaFix;
+    }
+
+    // Tambahkan hargaFix yang baru ke totalPenjualan
     totalPenjualan += hargaFix;
 
+    // Perbarui detail penjualan dan total penjualan
     updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
     updateTotalPenjualan(totalPenjualan);
 
-    // Tandai form ini sebagai sudah dihitung
-    form.data('calculated', true);
-});
-
-$(document).on('click', '.clearBtn', function () {
-    // Reset total penjualan dan hapus detail
-    clearTotalPenjualan();
-
-    // Hapus tanda "calculated" pada semua form
-    $('.penjualan-form').data('calculated', false);
-});
-
-
+    // Simpan hargaFix baru ke dalam form untuk digunakan pada perhitungan berikutnya
+    form.data('hargaFix', hargaFix);
+    });
+    
+    $(document).on('click', '.clearBtn', function () {
+        // Reset total penjualan dan hapus detail
+        clearTotalPenjualan();
+    
+        // Hapus data hargaFix pada semua form
+        $('.penjualan-form').removeData('hargaFix');
+    });
         $('.tambahBarangBtn').on('click', function () {
             const formClone = $('#formEmas').clone();
             formClone.find('input, select').val('');
