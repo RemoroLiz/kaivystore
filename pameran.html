@@ -54,19 +54,19 @@
                     <div class="col-sm-10">
                         <select class="form-select kodeEmas" required>
                             <option value="" selected>Pilih Kode</option>
-                            <option value="38 Juene">38 Juene 7K | 480000</option>
-                            <option value="44 Kuning">44 Kuning 8K | 555000</option>
-                            <option value="46 Putih">46 Putih 8K | 580000</option>
-                            <option value="48 Kuning">48 Kuning 9K | 605000</option>
-                            <option value="49 Putih">49 Putih 9K | 620000</option>
-                            <option value="75 16K">75 16K | 953000</option>
-                            <option value="81-89 17K">81-89 17K | 1052000</option>
-                            <option value="46.5 8K">46.5 8K BG | 585000</option>
-                            <option value="54 VC ILY">54 Voila & ILY 9K | 668500</option>
-                            <option value="16K coll">16 16K BG, Amero, Hala | 978000</option>
-                            <option value="17K coll">17 17K LPM, Amero, Hala | 1089000</option>
-                            <option value="Italy">Italy | 1262500</option>
-                            <option value="SDW">SDW | 1138500</option>
+                            <option value="38 Juene">38 Juene 7K </option>
+                            <option value="44 Kuning">44 Kuning 8K </option>
+                            <option value="46 Putih">46 Putih 8K </option>
+                            <option value="48 Kuning">48 Kuning 9K </option>
+                            <option value="49 Putih">49 Putih 9K </option>
+                            <option value="75 16K">75 16K </option>
+                            <option value="81-89 17K">81-89 17K </option>
+                            <option value="46.5 8K">46.5 8K BG </option>
+                            <option value="54 VC ILY">54 Voila & ILY 9K </option>
+                            <option value="16K coll">16 16K BG, Amero, Hala </option>
+                            <option value="17K coll">17 17K LPM, Amero, Hala </option>
+                            <option value="Italy">Italy</option>
+                            <option value="SDW">SDW / LPM </option>
                         </select>
                     </div>
                 </div>
@@ -97,19 +97,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         const hargaEmas = {
-            "38 Juene": 480000,
-            "44 Kuning": 555000,
-            "46 Putih": 580000,
-            "48 Kuning": 605000,
-            "49 Putih": 620000,
-            "75 16K": 953000,
-            "81-89 17K": 1052000,
-            "46.5 8K": 585000,
-            "54 VC ILY": 668500,
-            "16K coll": 978000,
-            "17K coll": 1089000,
-            "Italy": 1262500,
-            "SDW": 1138500
+            "38 Juene": 505000,
+            "44 Kuning": 585000,
+            "46 Putih": 610000,
+            "48 Kuning": 635000,
+            "49 Putih": 650000,
+            "75 16K": 1010500,
+            "81-89 17K": 1115500,
+            "46.5 8K": 0,
+            "54 VC ILY": 708500,
+            "16K coll": 1036500,
+            "17K coll": 1155000,
+            "Italy": 1338500,
+            "SDW": 1207500
         };
 
         let totalPenjualan = 0;
@@ -135,7 +135,7 @@
             let hargaFix = hasilBulat;
 
             // Pembulatan dan penambahan 5% untuk kode tertentu
-            if (["44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
+            if (["38 Juene", "46.5 8K", "54 VC ILY", "44 Kuning", "46 Putih", "48 Kuning", "49 Putih"].includes(kode)) {
                 tambahan5Persen = hasilBulat * 0.05;
 
                 // Pembulatan tambahan 5%
@@ -149,20 +149,6 @@
                 hargaFix = hasilBulat + tambahan5Persen;
             }
 
-            // Pembulatan dan penambahan 10% untuk kode tertentu
-            else if (["38 Juene", "46.5 8K", "54 VC ILY"].includes(kode)) {
-                tambahan10Persen = hasilBulat * 0.10;
-
-                // Pembulatan tambahan 10%
-                let remainderTambahan10 = tambahan10Persen % 1000;
-                if (remainderTambahan10 >= 1 && remainderTambahan10 <= 499) {
-                    tambahan10Persen = tambahan10Persen - remainderTambahan10 + 500;
-                } else if (remainderTambahan10 >= 501 && remainderTambahan10 <= 999) {
-                    tambahan10Persen = tambahan10Persen - remainderTambahan10 + 1000;
-                }
-
-                hargaFix = hasilBulat + tambahan10Persen;
-            }
 
             // Rumus khusus untuk kode 81-89 17K dan lainnya
             else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
