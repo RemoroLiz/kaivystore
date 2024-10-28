@@ -187,11 +187,11 @@ else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
 
        function updateTotalPenjualan(newTotal) {
             totalPenjualan = newTotal;
-            $('#totalPenjualan').html(<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>);
+            $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
         }
-        
+
             function updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
-        const detailHtml = 
+        const detailHtml = `
             <div class="detailPenjualan mt-3">
                 <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
                 <ul>
@@ -204,11 +204,11 @@ else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
                 </ul>
                 <hr>
             </div>
-        ;
+        `;
         form.next('.detailPenjualan').remove(); // Remove previous detail if exists
         form.after(detailHtml); // Append new detail after the form
     }
-    
+
    $(document).on('click', '.hitungBtn', function () {
     const form = $(this).closest('.penjualan-form');
 
@@ -238,11 +238,11 @@ else if (["81-89 17K", "17K coll", "Italy", "SDW"].includes(kode)) {
     // Simpan hargaFix baru ke dalam form untuk digunakan pada perhitungan berikutnya
     form.data('hargaFix', hargaFix);
     });
-    
+
     $(document).on('click', '.clearBtn', function () {
         // Reset total penjualan dan hapus detail
         clearTotalPenjualan();
-    
+
         // Hapus data hargaFix pada semua form
         $('.penjualan-form').removeData('hargaFix');
     });
