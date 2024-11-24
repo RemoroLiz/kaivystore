@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghitungan Jual Beli Emas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Toko Mas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="tokomaspantes.com">website</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="wa.me/+6289656737562">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Form Penjualan Emas</h2>
+        <div id="formContainer">
+            <form id="formEmas" class="penjualan-form">
+                <div class="row mb-3">
+                    <label for="kodeEmas" class="col-sm-2 col-form-label">Kode Emas</label>
+                    <div class="col-sm-10">
+                        <select class="form-select kodeEmas" required>
+                            <option value="" selected>Pilih Kode</option>
+                            <option value="38 Juene">38 Juene 7K </option>
+                            <option value="44 Kuning">44 Kuning 8K </option>
+                            <option value="46 Putih">46 Putih 8K </option>
+                            <option value="48 Kuning">48 Kuning 9K </option>
+                            <option value="49 Putih">49 Putih 9K </option>
+                            <option value="75 16K">75 16K </option>
+                            <option value="81-89 17K">81-89 17K </option>
+                            <option value="46.5 8K">46.5 8K BG </option>
+                            <option value="54 VC ILY">54 Voila & ILY 9K </option>
+                            <option value="16K coll">16 16K BG, Amero, Hala </option>
+                            <option value="17K coll">17 17K LPM, Amero, Hala </option>
+                            <option value="Italy">Italy</option>
+                            <option value="SDW">SDW / LPM </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="hargaEmas" class="col-sm-2 col-form-label">Harga</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control hargaEmas" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="beratEmas" class="col-sm-2 col-form-label">Berat (gram)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control beratEmas" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary hitungBtn">Hitung</button>
+                <button type="reset" class="btn btn-danger clearBtn">Clear Data</button>
+            </form>
+        </div>
+
+        <button type="button" class="btn btn-success mt-3 tambahBarangBtn">Tambah Barang</button>
+
+        <div id="detailPenjualan" class="mt-5"></div>
+        <div id="totalPenjualan" class="mt-3"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        const hargaEmas = {
+            "38 Juene": 535000,
+            "44 Kuning": 615000,
+            "46 Putih": 645000,
+            "48 Kuning": 670000,
+            "49 Putih": 685000,
+            "75 16K": 1088500,
+            "81-89 17K": 1201500,
+            "46.5 8K": 650000,
+            "54 VC ILY": 763000,
+            "16K coll": 1116500,
+            "17K coll": 1251000,
+            "Italy": 1441500,
+            "SDW": 1230000
+        };
+
+        let totalPenjualan = 0;
+
+        function calculatePrice(kode, berat) {
+            let harga = hargaEmas[kode];
+            let hasilAwal = harga * berat;
+
+            // Pembulatan hasil awal
+            let remainder = hasilAwal % 1000;
+            let hasilBulat;
+            if (remainder >= 1 && remainder <= 499) {
+                hasilBulat = hasilAwal - remainder + 500;
+            } else if (remainder >= 501 && remainder <= 999) {
+                hasilBulat = hasilAwal - remainder + 1000;
+            } else {
+                hasilBulat = hasilAwal;
+            }
+
+            let tambahan5Persen = 0;
+let tambahan10Persen = 0;
+let potonganAwal = 0;
+let hargaFix = hasilBulat;
+
+// Pembulatan dan penambahan 5% untuk kode tertentu
+if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene","46 Putih", "49 Putih"].includes(kode)) {
+    if (berat < 1) {
+        potonganAwal = 15000 * 1; // Potongan tetap untuk berat di bawah 1 gram
+    } else {
+        potonganAwal = 15000 * berat;
+    }
+
+    hargaFix = hasilBulat + potonganAwal;
+
+    // Pembulatan setelah pengurangan potongan
+    let remainderPotongan = hargaFix % 1000;
+    if (remainderPotongan >= 1 && remainderPotongan <= 499) {
+        hargaFix = hargaFix - remainderPotongan + 500;
+    } else if (remainderPotongan >= 501 && remainderPotongan <= 999) {
+        hargaFix = hargaFix - remainderPotongan + 1000;
+    }
+}
+
+
+            return {
+                harga,
+                hasilAwal,
+                hasilBulat,
+                tambahan5Persen,
+                tambahan10Persen,
+                potonganAwal,
+                hargaFix
+            };
+        }
+
+       function updateTotalPenjualan(newTotal) {
+            totalPenjualan = newTotal;
+            $('#totalPenjualan').html(`<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>`);
+        }
+
+            function updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
+        const detailHtml = `
+            <div class="detailPenjualan mt-3">
+                <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
+                <ul>
+                    <li>Harga Awal: Rp. ${hasilAwal.toLocaleString('id-ID')}</li>
+                    <li>Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString('id-ID')}</li>
+                    <li>Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString('id-ID')}</li>
+                    <li>Tambahan 10%: Rp. ${tambahan10Persen.toLocaleString('id-ID')}</li>
+                    <li>Potongan Awal: Rp. ${potonganAwal.toLocaleString('id-ID')}</li>
+                    <li>Harga Final: Rp. ${hargaFix.toLocaleString('id-ID')}</li>
+                </ul>
+                <hr>
+            </div>
+        `;
+        form.next('.detailPenjualan').remove(); // Remove previous detail if exists
+        form.after(detailHtml); // Append new detail after the form
+    }
+
+   $(document).on('click', '.hitungBtn', function () {
+    const form = $(this).closest('.penjualan-form');
+
+    const kode = form.find('.kodeEmas').val();
+    const berat = parseFloat(form.find('.beratEmas').val());
+
+    if (!kode || isNaN(berat) || berat <= 0) {
+        alert("Kode dan berat harus diisi dengan benar.");
+        return;
+    }
+
+    const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+
+    // Jika form sudah pernah dihitung sebelumnya, kurangi totalPenjualan dengan harga sebelumnya
+    const previousHargaFix = form.data('hargaFix');
+    if (previousHargaFix) {
+        totalPenjualan -= previousHargaFix;
+    }
+
+    // Tambahkan hargaFix yang baru ke totalPenjualan
+    totalPenjualan += hargaFix;
+
+    // Perbarui detail penjualan dan total penjualan
+    updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
+    updateTotalPenjualan(totalPenjualan);
+
+    // Simpan hargaFix baru ke dalam form untuk digunakan pada perhitungan berikutnya
+    form.data('hargaFix', hargaFix);
+    });
+
+    $(document).on('click', '.clearBtn', function () {
+        // Reset total penjualan dan hapus detail
+        clearTotalPenjualan();
+
+        // Hapus data hargaFix pada semua form
+        $('.penjualan-form').removeData('hargaFix');
+    });
+        $('.tambahBarangBtn').on('click', function () {
+            const formClone = $('#formEmas').clone();
+            formClone.find('input, select').val('');
+            $('#formContainer').append(formClone);
+        });
+
+        // Auto-fill harga when kode is selected
+        $(document).on('change', '.kodeEmas', function () {
+            const form = $(this).closest('.penjualan-form');
+            const kode = form.find('.kodeEmas').val();
+            form.find('.hargaEmas').val(hargaEmas[kode] ? hargaEmas[kode].toLocaleString('id-ID') : '');
+        });
+    </script>
+</body>
+
+</html>
