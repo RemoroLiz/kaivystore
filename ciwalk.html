@@ -50,11 +50,15 @@
                             <option value="" selected>Pilih Kode</option>
                             <option value="38 Juene">38 Juene 7K </option>
                             <option value="44 Kuning">44 Kuning 8K </option>
+                             <option value="44 Kuningcoll">44 Kuning 8K Collection </option>
                             <option value="46 Putih">46 Putih 8K </option>
                             <option value="48 Kuning">48 Kuning 9K </option>
+                            <option value="48 Kuningcoll">48 Kuning 9K Collection </option>
                             <option value="49 Putih">49 Putih 9K </option>
-                            <option value="75 16K">75 16K </option>
+                            <option value="75 16K">75 16K Kuning</option>
+                             <option value="75 16Kwg">75 16K Putih</option>
                             <option value="81-89 17K">81-89 17K </option>
+                            <option value="81-89 17Kyg">81-89 17K Kuning</option>
                             <option value="46.5 8K">46.5 8K BG </option>
                             <option value="54 VC ILY">54 Voila & ILY 9K </option>
                             <option value="16K coll">16 16K BG, Amero, Hala </option>
@@ -103,7 +107,12 @@
             "16K coll": 0,
             "17K coll": 0,
             "Italy": 0,
-            "SDW": 1535000
+            "SDW": 1535000,
+
+            "44 Kuningcoll": 745500,
+            "48 Kuningcoll": 814000,
+            "75 16Kwg": 1268500,
+            "81-89 17Kyg": 1418500"
         };
 
         let totalPenjualan = 0;
@@ -129,7 +138,7 @@ let potonganAwal = 0;
 let hargaFix = hasilBulat;
 
 // Pembulatan dan penambahan 5% untuk kode tertentu
-if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene","46 Putih", "49 Putih","54 VC ILY"].includes(kode)) {
+if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene","46 Putih", "49 Putih","54 VC ILY","44 Kuningcoll","48 Kuningcoll","75 16Kwg","81-89 17Kyg"].includes(kode)) {
     if (berat < 1) {
         potonganAwal = 15000 * 1; // Potongan tetap untuk berat di bawah 1 gram
     } else {
