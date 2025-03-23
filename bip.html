@@ -50,13 +50,13 @@
                             <option value="" selected>Pilih Kode</option>
                             <option value="38 Juene">38 Juene 7K </option>
                             <option value="44 Kuning">44 Kuning 8K </option>
-                             <option value="44 Kuningcoll">44 Kuning 8K Collection </option>
+                            <option value="44 Kuningcoll">44 Kuning 8K Collection </option>
                             <option value="46 Putih">46 Putih 8K </option>
                             <option value="48 Kuning">48 Kuning 9K </option>
                             <option value="48 Kuningcoll">48 Kuning 9K Collection </option>
                             <option value="49 Putih">49 Putih 9K </option>
                             <option value="75 16K">75 16K Kuning</option>
-                             <option value="75 16Kwg">75 16K Putih</option>
+                            <option value="75 16Kwg">75 16K Putih</option>
                             <option value="81-89 17K">81-89 17K </option>
                             <option value="81-89 17Kyg">81-89 17K Kuning</option>
                             <option value="46.5 8K">46.5 8K BG </option>
@@ -113,8 +113,6 @@
             "17K coll": 1452000,
             "Italy": 0,
             "SDW": 1535000
-
-            
         };
 
         let totalPenjualan = 0;
@@ -135,29 +133,28 @@
             }
 
             let tambahan5Persen = 0;
-let tambahan10Persen = 0;
-let potonganAwal = 0;
-let hargaFix = hasilBulat;
+            let tambahan10Persen = 0;
+            let potonganAwal = 0;
+            let hargaFix = hasilBulat;
 
-// Pembulatan dan penambahan 5% untuk kode tertentu
-if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene","46 Putih", "49 Putih","54 VC ILY","44 Kuningcoll","48 Kuningcoll","75 16Kwg","16K coll"].includes(kode)) {
-    if (berat < 1) {
-        potonganAwal = 15000 * 1; // Potongan tetap untuk berat di bawah 1 gram
-    } else {
-        potonganAwal = 15000 * berat;
-    }
+            // Pembulatan dan penambahan 5% untuk kode tertentu
+            if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene", "46 Putih", "49 Putih", "54 VC ILY", "44 Kuningcoll", "48 Kuningcoll", "75 16Kwg", "16K coll"].includes(kode)) {
+                if (berat < 1) {
+                    potonganAwal = 15000 * 1; // Potongan tetap untuk berat di bawah 1 gram
+                } else {
+                    potonganAwal = 15000 * berat;
+                }
 
-    hargaFix = hasilBulat + potonganAwal;
+                hargaFix = hasilBulat + potonganAwal;
 
-    // Pembulatan setelah pengurangan potongan
-    let remainderPotongan = hargaFix % 1000;
-    if (remainderPotongan >= 1 && remainderPotongan <= 499) {
-        hargaFix = hargaFix - remainderPotongan + 500;
-    } else if (remainderPotongan >= 501 && remainderPotongan <= 999) {
-        hargaFix = hargaFix - remainderPotongan + 1000;
-    }
-}
-
+                // Pembulatan setelah pengurangan potongan
+                let remainderPotongan = hargaFix % 1000;
+                if (remainderPotongan >= 1 && remainderPotongan <= 499) {
+                    hargaFix = hargaFix - remainderPotongan + 500;
+                } else if (remainderPotongan >= 501 && remainderPotongan <= 999) {
+                    hargaFix = hargaFix - remainderPotongan + 1000;
+                }
+            }
 
             return {
                 harga,
@@ -170,80 +167,78 @@ if (["81-89 17K", "17K coll", "Italy", "SDW", "38 Juene","46 Putih", "49 Putih",
             };
         }
 
-       function updateTotalPenjualan(newTotal) {
+        function updateTotalPenjualan(newTotal) {
             totalPenjualan = newTotal;
             $('#totalPenjualan').html(<h3>Total Penjualan: Rp. ${totalPenjualan.toLocaleString('id-ID')}</h3>);
         }
 
-            function updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
-        const detailHtml = `
-            <div class="detailPenjualan mt-3">
-                <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
-                <ul>
-                    <li>Harga Awal: Rp. ${hasilAwal.toLocaleString('id-ID')}</li>
-                    <li>Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString('id-ID')}</li>
-                    <li>Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString('id-ID')}</li>
-                    <li>Tambahan 10%: Rp. ${tambahan10Persen.toLocaleString('id-ID')}</li>
-                    <li>Potongan Awal: Rp. ${potonganAwal.toLocaleString('id-ID')}</li>
-                    <li>Harga Final: Rp. ${hargaFix.toLocaleString('id-ID')}</li>
-                </ul>
-                <hr>
-            </div>
-        `;
-        form.next('.detailPenjualan').remove(); // Remove previous detail if exists
-        form.after(detailHtml); // Append new detail after the form
-    }
-
-   $(document).on('click', '.hitungBtn', function () {
-    const form = $(this).closest('.penjualan-form');
-
-    const kode = form.find('.kodeEmas').val();
-    const berat = parseFloat(form.find('.beratEmas').val());
-
-    if (!kode || isNaN(berat) || berat <= 0) {
-        alert("Kode dan berat harus diisi dengan benar.");
-        return;
-    }
-
-    const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
-
-    // Jika form sudah pernah dihitung sebelumnya, kurangi totalPenjualan dengan harga sebelumnya
-    const previousHargaFix = form.data('hargaFix');
-    if (previousHargaFix) {
-        totalPenjualan -= previousHargaFix;
-    }
-
-    // Tambahkan hargaFix yang baru ke totalPenjualan
-    totalPenjualan += hargaFix;
-
-    // Perbarui detail penjualan dan total penjualan
-    updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
-    updateTotalPenjualan(totalPenjualan);
-
-    // Simpan hargaFix baru ke dalam form untuk digunakan pada perhitungan berikutnya
-    form.data('hargaFix', hargaFix);
-    });
-
-    $(document).on('click', '.clearBtn', function () {
-        // Reset total penjualan dan hapus detail
-        clearTotalPenjualan();
-
-        // Hapus data hargaFix pada semua form
-        $('.penjualan-form').removeData('hargaFix');
-    });
-
-    $(document).on('click', '.hapusBtn', function () {
-        const form = $(this).closest('.penjualan-form');
-        const previousHargaFix = form.data('hargaFix');
-
-        if (previousHargaFix) {
-            totalPenjualan -= previousHargaFix;
-            updateTotalPenjualan(totalPenjualan);
+        function updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix) {
+            const detailHtml = `
+                <div class="detailPenjualan mt-3">
+                    <h5>Kode: ${kode} | Berat: ${berat} gram | Harga: Rp. ${harga.toLocaleString('id-ID')}</h5>
+                    <ul>
+                        <li>Harga Awal: Rp. ${hasilAwal.toLocaleString('id-ID')}</li>
+                        <li>Harga Setelah Dibulatkan: Rp. ${hasilBulat.toLocaleString('id-ID')}</li>
+                        <li>Tambahan 5%: Rp. ${tambahan5Persen.toLocaleString('id-ID')}</li>
+                        <li>Tambahan 10%: Rp. ${tambahan10Persen.toLocaleString('id-ID')}</li>
+                        <li>Potongan Awal: Rp. ${potonganAwal.toLocaleString('id-ID')}</li>
+                        <li>Harga Final: Rp. ${hargaFix.toLocaleString('id-ID')}</li>
+                    </ul>
+                    <hr>
+                </div>
+            `;
+            form.next('.detailPenjualan').remove(); // Hapus detail sebelumnya jika ada
+            form.after(detailHtml); // Tambahkan detail baru setelah form
         }
 
-        form.next('.detailPenjualan').remove(); // Hapus detail penjualan
-        form.remove(); // Hapus form
-    });
+        $(document).on('click', '.hitungBtn', function () {
+            const form = $(this).closest('.penjualan-form');
+
+            const kode = form.find('.kodeEmas').val();
+            const berat = parseFloat(form.find('.beratEmas').val());
+
+            if (!kode || isNaN(berat) || berat <= 0) {
+                alert("Kode dan berat harus diisi dengan benar.");
+                return;
+            }
+
+            const { harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix } = calculatePrice(kode, berat);
+
+            // Jika form sudah pernah dihitung sebelumnya, kurangi totalPenjualan dengan harga sebelumnya
+            const previousHargaFix = form.data('hargaFix');
+            if (previousHargaFix) {
+                totalPenjualan -= previousHargaFix;
+            }
+
+            // Tambahkan hargaFix yang baru ke totalPenjualan
+            totalPenjualan += hargaFix;
+
+            // Perbarui detail penjualan dan total penjualan
+            updateDetailPenjualan(form, kode, berat, harga, hasilAwal, hasilBulat, tambahan5Persen, tambahan10Persen, potonganAwal, hargaFix);
+            updateTotalPenjualan(totalPenjualan);
+
+            // Simpan hargaFix baru ke dalam form untuk digunakan pada perhitungan berikutnya
+            form.data('hargaFix', hargaFix);
+        });
+
+        $(document).on('click', '.clearBtn', function () {
+            const form = $(this).closest('.penjualan-form');
+            form.find('input, select').val(''); // Reset form
+            form.next('.detailPenjualan').remove(); // Hapus detail penjualan
+        });
+
+        $(document).on('click', '.hapusBtn', function () {
+            const form = $(this).closest('.penjualan-form');
+            const previousHargaFix = form.data('hargaFix');
+
+            if (previousHargaFix) {
+                totalPenjualan -= previousHargaFix;
+                updateTotalPenjualan(totalPenjualan);
+            }
+
+            form.next('.detailPenjualan').remove(); // Hapus detail penjualan
+            form.remove(); // Hapus form
+        });
 
         $('.tambahBarangBtn').on('click', function () {
             const formClone = $('#formEmas').clone();
