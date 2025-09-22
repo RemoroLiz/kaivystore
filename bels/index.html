@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nama Toko - Katalog Barang</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="page-container">
+      <div id="content-wrap">
+        <!-- Header Section - Fixed saat scroll -->
+        <nav
+          class="navbar navbar-expand-lg navbar-dark fixed-top"
+          id="main-navbar"
+        >
+          <div class="container">
+            <a
+              class="navbar-brand mx-auto d-flex align-items-center"
+              href="#"
+              id="brand"
+            >
+              <img src="" alt="Logo" id="logo" height="35" />
+              <span id="store-name" class="ms-2 d-none d-sm-block"
+                >Nama Toko</span
+              >
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div
+              class="collapse navbar-collapse justify-content-end"
+              id="navbarNav"
+            >
+              <ul class="navbar-nav" id="category-menu">
+                <!-- Categories will be loaded here -->
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Body Section - Tambahkan padding atas untuk navbar fixed -->
+        <section class="py-5" style="padding-top: 80px !important">
+          <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Katalog Barang</h2>
+            <div class="row g-3" id="product-catalog">
+              <!-- Products will be loaded here -->
+              <div class="loading">
+                <div class="spinner"></div>
+              </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav
+              aria-label="Product pagination"
+              class="d-none mt-4"
+              id="pagination-container"
+            >
+              <ul class="pagination justify-content-center" id="pagination">
+                <!-- Pagination will be generated here -->
+              </ul>
+            </nav>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer Section -->
+      <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title" id="footer-store-name">Nama Toko</h4>
+              <p id="footer-description">
+                Deskripsi toko Anda akan muncul di sini.
+              </p>
+            </div>
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title">Kontak</h4>
+              <div class="footer-links">
+                <p>
+                  <i class="fas fa-map-marker-alt me-2"></i>
+                  <span id="footer-address">Alamat toko</span>
+                </p>
+                <p>
+                  <i class="fas fa-phone me-2"></i>
+                  <span id="footer-phone">Nomor telepon</span>
+                </p>
+                <p>
+                  <i class="fas fa-envelope me-2"></i>
+                  <span id="footer-email">Email toko</span>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title">Follow Kami</h4>
+              <div class="footer-links">
+                <a href="#" id="instagram-link" target="_blank"
+                  ><i class="fab fa-instagram me-2"></i> Instagram</a
+                >
+                <a href="#" id="tiktok-link" target="_blank"
+                  ><i class="fab fa-tiktok me-2"></i> TikTok</a
+                >
+                <a href="#" id="whatsapp-link" target="_blank"
+                  ><i class="fab fa-whatsapp me-2"></i> WhatsApp</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5 pt-3 border-top border-secondary">
+            <p>
+              &copy; 2023 <span id="copyright-name">Nama Toko</span>. All rights
+              reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
