@@ -1,1 +1,409 @@
+:root {
+  --primary: #2a2a3c;
+  --secondary: #ff6584;
+  --accent: #36d1dc;
+  --dark: #2a2a3c;
+  --light: #f8f9fa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f5f7;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Layout dengan footer fixed bottom */
+#page-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#content-wrap {
+  padding-bottom: 50px;
+  width: 100%;
+}
+
+/* Header Styles - Fixed dengan efek transparansi saat scroll */
+.navbar {
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(42, 42, 60, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 8px 0;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: white !important;
+}
+
+.navbar-brand img {
+  margin-right: 8px;
+  border-radius: 6px;
+  transition: transform 0.3s;
+}
+
+.navbar-brand:hover img {
+  transform: rotate(10deg);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  margin: 0 6px;
+  transition: all 0.3s;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: white;
+  border-radius: 10px;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-container {
+  height: 160px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f8f9fa;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.card-text {
+  color: #666;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.price {
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+/* Order button styles - Diperkecil */
+.order-btn {
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-weight: 600;
+  transition: all 0.3s;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.order-btn:hover {
+  background: linear-gradient(135deg, var(--dark), var(--primary));
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* Footer Styles */
+footer {
+  background: linear-gradient(135deg, var(--dark), #1a1a2e);
+  color: white;
+  padding: 40px 0 20px;
+  width: 100%;
+}
+
+.footer-title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.footer-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: var(--secondary);
+  transform: translateX(5px);
+}
+
+.footer-links p {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 8px;
+  color: white;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.social-icons a:hover {
+  background: var(--secondary);
+  transform: translateY(-3px);
+}
+
+/* Loading Animation */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(108, 99, 255, 0.2);
+  border-radius: 50%;
+  border-top: 4px solid var(--primary);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pagination Styles */
+.pagination {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-link {
+  border: none;
+  color: var(--dark);
+  margin: 0 3px;
+  border-radius: 6px !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+}
+
+.page-link:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1400px) {
+  .card-img-container {
+    height: 150px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .card-img-container {
+    height: 140px;
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .card-img-container {
+    height: 130px;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-text {
+    font-size: 0.78rem;
+  }
+
+  .price {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand #store-name {
+    font-size: 1rem;
+  }
+
+  .card-img-container {
+    height: 120px;
+  }
+
+  .card-body {
+    padding: 0.8rem;
+  }
+
+  .footer-title {
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand img {
+    height: 30px;
+  }
+
+  .card-img-container {
+    height: 110px;
+  }
+
+  .card-body {
+    padding: 0.7rem;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+  }
+
+  .card-text {
+    font-size: 0.75rem;
+  }
+
+  .price {
+    font-size: 0.85rem;
+  }
+
+  .order-btn {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+
+  .footer-title {
+    font-size: 0.95rem;
+  }
+
+  .footer-links a,
+  .footer-links p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .col-6 {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .card-img-container {
+    height: 100px;
+  }
+
+  .card-body {
+    padding: 0.6rem;
+  }
+}
 
