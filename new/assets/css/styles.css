@@ -1,0 +1,91 @@
+/* Custom Styles untuk Kaivystore */
+:root {
+    --primary-color: #e728b8;
+    --dark-bg: #2d3238;
+    --card-bg: #181b1f;
+}
+
+body {
+    background-color: var(--dark-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-topup {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.btn-topup:hover {
+    background-color: #d421a6;
+    border-color: #d421a6;
+    color: white;
+}
+
+.card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.rounded-img-buy {
+    border-radius: 15px;
+}
+
+.size-img-buy {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.size-img-buy-v {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.strip-primary {
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+.fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(231, 40, 184, 0.3);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .size-img-buy {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .col-lg-9.mx-auto {
+        padding: 0 15px;
+    }
+}
